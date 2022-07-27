@@ -2,6 +2,7 @@
 
 const Gameboard = (function () {
   const values = new Array(9).fill("");
+  const winTracker = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
 
   function display(target) {
     values.forEach((val, i) => target.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
@@ -15,38 +16,8 @@ const Gameboard = (function () {
     return values[id];
   }
 
-  function checkRows() {
-    // const row1 = new Set(values.slice(0, 3));
-    // const row2 = new Set(values.slice(3, 6));
-    // const row3 = new Set(values.slice(6, 9));
-    // console.log(row1);
-    // console.log(row2);
-    // console.log(row3);
-  }
-
-  return { display, getCell, setCell, checkRows };
-})();
-
-const Player = function (playerName, playerSymbol) {
-  const symbol = playerSymbol;
-  const name = playerName;
-  return { name, symbol };
-};
-
-const Game = (function () {
-  const playerUser = Player("User", "X");
-  const playerComputer = Player("CPU", "O");
-  const $gameboard = document.querySelector(".gameboard");
-  let activePlayer = playerUser;
-
-  function switchActivePlayer() {
-    activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
-  }
-
-  const winTracker = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
-
-  function checkForWinner(id, symbol) {
-    const add = symbol === playerUser.symbol ? 1 : -1;
+  function checkForWinner(id, symbol, activePlayer) {
+    const add = symbol === activePlayer.symbol ? 1 : -1;
     if (id === 0) {
       winTracker.row1 += add;
       winTracker.col1 += add;
@@ -85,6 +56,29 @@ const Game = (function () {
     return Object.values(winTracker).some((val) => val === 3 || val === -3);
   }
 
+  function checkIfFull() {
+    if (!values.includes("")) return true;
+  }
+
+  return { display, getCell, setCell, checkIfFull, checkForWinner };
+})();
+
+const Player = function (playerName, playerSymbol) {
+  const symbol = playerSymbol;
+  const name = playerName;
+  return { name, symbol };
+};
+
+const Game = (function () {
+  const playerUser = Player("User", "X");
+  const playerComputer = Player("CPU", "O");
+  const $gameboard = document.querySelector(".gameboard");
+  let activePlayer = playerUser;
+
+  function switchActivePlayer() {
+    activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
+  }
+
   function playRound(e) {
     const clickedCell = e.target;
     const symbol = activePlayer.symbol;
@@ -95,7 +89,8 @@ const Game = (function () {
     clickedCell.textContent = symbol;
     Gameboard.setCell(symbol, cellId);
 
-    checkForWinner(cellId, symbol);
+    if (Gameboard.checkForWinner(cellId, symbol, activePlayer)) console.log(`The winner is ${activePlayer.name}!`);
+    if (Gameboard.checkIfFull()) console.log(`It's a draw!`);
     switchActivePlayer();
   }
 
