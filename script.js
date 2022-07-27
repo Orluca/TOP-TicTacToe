@@ -84,9 +84,11 @@ const Player = function (playerName, playerSymbol) {
 const Game = (function () {
   const playerUser = Player("User", "X");
   const playerComputer = Player("CPU", "O");
+  let activePlayer;
+
   const $gameboard = document.querySelector(".gameboard");
   const $btnStart = document.querySelector(".btn-start-game");
-  let activePlayer;
+  const $resultDisplay = document.querySelector(".result-display");
 
   function switchActivePlayer() {
     activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
@@ -105,10 +107,12 @@ const Game = (function () {
     if (Gameboard.checkForWinner(cellId, symbol, activePlayer)) {
       console.log(`The winner is ${activePlayer.name}!`);
       disableInput();
+      displayResult(activePlayer.name);
     }
     if (Gameboard.checkIfFull()) {
       console.log(`It's a draw!`);
       disableInput();
+      displayResult();
     }
     switchActivePlayer();
   }
@@ -121,7 +125,15 @@ const Game = (function () {
     $gameboard.removeEventListener("click", playRound);
   }
 
+  function displayResult(winner) {
+    $resultDisplay.classList.remove("hidden");
+
+    if (!winner) $resultDisplay.textContent = "It's a draw!";
+    else $resultDisplay.textContent = `${winner} wins!`;
+  }
+
   function start() {
+    $resultDisplay.classList.add("hidden");
     activePlayer = playerUser;
     Gameboard.init();
     enableInput();
