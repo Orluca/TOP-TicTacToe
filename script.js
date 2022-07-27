@@ -1,11 +1,12 @@
 "use strict";
 
 const Gameboard = (function () {
-  const values = new Array(9).fill("");
-  const winTracker = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
+  let values = new Array(9).fill("");
+  let winTracker;
+  const $gameboard = document.querySelector(".gameboard");
 
-  function display(target) {
-    values.forEach((val, i) => target.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
+  function display() {
+    values.forEach((val, i) => $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
   }
 
   function setCell(symbol, id) {
@@ -17,7 +18,7 @@ const Gameboard = (function () {
   }
 
   function checkForWinner(id, symbol, activePlayer) {
-    const add = symbol === activePlayer.symbol ? 1 : -1;
+    const add = activePlayer.symbol === "X" ? 1 : -1;
     if (id === 0) {
       winTracker.row1 += add;
       winTracker.col1 += add;
@@ -60,12 +61,18 @@ const Gameboard = (function () {
     if (!values.includes("")) return true;
   }
 
-  function clear(target) {
+  function clear() {
+    $gameboard.innerHTML = "";
     values = new Array(9).fill("");
-    display(target);
   }
 
-  return { display, getCell, setCell, checkIfFull, checkForWinner, clear };
+  function init() {
+    winTracker = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
+    clear();
+    display();
+  }
+
+  return { getCell, setCell, checkIfFull, checkForWinner, init };
 })();
 
 const Player = function (playerName, playerSymbol) {
@@ -79,7 +86,7 @@ const Game = (function () {
   const playerComputer = Player("CPU", "O");
   const $gameboard = document.querySelector(".gameboard");
   const $btnStart = document.querySelector(".btn-start-game");
-  let activePlayer = playerUser;
+  let activePlayer;
 
   function switchActivePlayer() {
     activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
@@ -115,7 +122,8 @@ const Game = (function () {
   }
 
   function start() {
-    Gameboard.display($gameboard);
+    activePlayer = playerUser;
+    Gameboard.init();
     enableInput();
   }
 
