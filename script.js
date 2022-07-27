@@ -60,7 +60,12 @@ const Gameboard = (function () {
     if (!values.includes("")) return true;
   }
 
-  return { display, getCell, setCell, checkIfFull, checkForWinner };
+  function clear(target) {
+    values = new Array(9).fill("");
+    display(target);
+  }
+
+  return { display, getCell, setCell, checkIfFull, checkForWinner, clear };
 })();
 
 const Player = function (playerName, playerSymbol) {
@@ -73,6 +78,7 @@ const Game = (function () {
   const playerUser = Player("User", "X");
   const playerComputer = Player("CPU", "O");
   const $gameboard = document.querySelector(".gameboard");
+  const $btnStart = document.querySelector(".btn-start-game");
   let activePlayer = playerUser;
 
   function switchActivePlayer() {
@@ -89,17 +95,35 @@ const Game = (function () {
     clickedCell.textContent = symbol;
     Gameboard.setCell(symbol, cellId);
 
-    if (Gameboard.checkForWinner(cellId, symbol, activePlayer)) console.log(`The winner is ${activePlayer.name}!`);
-    if (Gameboard.checkIfFull()) console.log(`It's a draw!`);
+    if (Gameboard.checkForWinner(cellId, symbol, activePlayer)) {
+      console.log(`The winner is ${activePlayer.name}!`);
+      disableInput();
+    }
+    if (Gameboard.checkIfFull()) {
+      console.log(`It's a draw!`);
+      disableInput();
+    }
     switchActivePlayer();
+  }
+
+  function enableInput() {
+    $gameboard.addEventListener("click", playRound);
+  }
+
+  function disableInput() {
+    $gameboard.removeEventListener("click", playRound);
   }
 
   function start() {
     Gameboard.display($gameboard);
-    $gameboard.addEventListener("click", playRound);
+    enableInput();
   }
 
-  return { start };
+  function init() {
+    $btnStart.addEventListener("click", start);
+  }
+
+  return { init };
 })();
 
-Game.start();
+Game.init();
