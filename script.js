@@ -1,31 +1,21 @@
 "use strict";
 
 const Gameboard = (function () {
-  const $gameboard = document.querySelector(".gameboard");
   const values = new Array(9).fill("");
 
-  function display() {
-    values.forEach((val, i) => $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
+  function display(element) {
+    values.forEach((val, i) => element.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
   }
 
-  function draw(e) {
-    const clickedCell = e.target;
-
-    if (clickedCell.textContent) return;
-
-    const symbol = Game.getActiveSymbol();
-    clickedCell.textContent = symbol;
-    Game.switchActivePlayer();
-    updateArray(symbol, clickedCell.dataset.id);
-  }
-
-  function updateArray(symbol, id) {
+  function setCell(symbol, id) {
     values[id] = symbol;
   }
 
-  $gameboard.addEventListener("click", draw);
+  function getCell(id) {
+    return values[id];
+  }
 
-  return { display };
+  return { display, getCell, setCell };
 })();
 
 const Player = function (playerName, playerSymbol) {
@@ -37,6 +27,7 @@ const Player = function (playerName, playerSymbol) {
 const Game = (function () {
   const playerUser = Player("User", "X");
   const playerComputer = Player("CPU", "O");
+  const $gameboard = document.querySelector(".gameboard");
   let activePlayer = playerUser;
 
   function switchActivePlayer() {
@@ -47,11 +38,30 @@ const Game = (function () {
     return activePlayer.symbol;
   }
 
-  function start() {
-    Gameboard.display();
+  function checkForWinner() {
+    if (Gameboard.getCell(0) === Gameboard.getCell(1) && Gameboard.getCell(0) === Gameboard.getCell(2) && Gameboard.getCell(1) === Gameboard.getCell(2) && Gameboard.getCell(0)) console.log("WIN");
   }
 
-  return { start, switchActivePlayer, getActiveSymbol };
+  function playRound(e) {
+    const clickedCell = e.target;
+    const symbol = activePlayer.symbol;
+    const cellId = clickedCell.dataset.id;
+
+    if (clickedCell.textContent) return; // Don't overwrite cells that have already been clicked
+
+    clickedCell.textContent = symbol;
+    Gameboard.setCell(symbol, cellId);
+
+    checkForWinner();
+    switchActivePlayer();
+  }
+
+  function start() {
+    Gameboard.display($gameboard);
+    $gameboard.addEventListener("click", playRound);
+  }
+
+  return { start, switchActivePlayer, getActiveSymbol, checkForWinner };
 })();
 
 Game.start();
