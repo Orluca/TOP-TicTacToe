@@ -5,13 +5,22 @@ const Gameboard = (function () {
   const values = new Array(9).fill("");
 
   function display() {
-    values.forEach((val) => $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell">${val}</div>`));
+    values.forEach((val, i) => $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
   }
 
   function draw(e) {
-    if (e.target.textContent) return;
-    e.target.textContent = Game.getSymbol();
+    const clickedCell = e.target;
+
+    if (clickedCell.textContent) return;
+
+    const symbol = Game.getActiveSymbol();
+    clickedCell.textContent = symbol;
     Game.switchActivePlayer();
+    updateArray(symbol, clickedCell.dataset.id);
+  }
+
+  function updateArray(symbol, id) {
+    values[id] = symbol;
   }
 
   $gameboard.addEventListener("click", draw);
@@ -19,21 +28,22 @@ const Gameboard = (function () {
   return { display };
 })();
 
-const Player = function (playerSymbol) {
+const Player = function (playerName, playerSymbol) {
   const symbol = playerSymbol;
-  return { symbol };
+  const name = playerName;
+  return { name, symbol };
 };
 
 const Game = (function () {
-  const playerUser = Player("X");
-  const playerComputer = Player("O");
+  const playerUser = Player("User", "X");
+  const playerComputer = Player("CPU", "O");
   let activePlayer = playerUser;
 
   function switchActivePlayer() {
     activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
   }
 
-  function getSymbol() {
+  function getActiveSymbol() {
     return activePlayer.symbol;
   }
 
@@ -41,7 +51,7 @@ const Game = (function () {
     Gameboard.display();
   }
 
-  return { start, activePlayer, switchActivePlayer, getSymbol };
+  return { start, switchActivePlayer, getActiveSymbol };
 })();
 
 Game.start();
