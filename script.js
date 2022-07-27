@@ -105,12 +105,10 @@ const Game = (function () {
     Gameboard.setCell(symbol, cellId);
 
     if (Gameboard.checkForWinner(cellId, symbol, activePlayer)) {
-      console.log(`The winner is ${activePlayer.name}!`);
       disableInput();
       displayResult(activePlayer.name);
     }
     if (Gameboard.checkIfFull()) {
-      console.log(`It's a draw!`);
       disableInput();
       displayResult();
     }
@@ -141,6 +139,7 @@ const Game = (function () {
 
   function init() {
     $btnStart.addEventListener("click", start);
+    Gameboard.init();
   }
 
   return { init };
