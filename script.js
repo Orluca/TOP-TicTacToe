@@ -1,20 +1,18 @@
 "use strict";
 
 const Gameboard = (function () {
-  const gameboardArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  return { gameboardArray };
-})();
-
-const DisplayController = (function () {
-  const displayGameboard = function (array) {
+  const values = ["X", "O", "X", "O", "X", "O", "O", "X", "X"];
+  const display = function () {
     const $gameboard = document.querySelector(".gameboard");
-    array.forEach((val) => {
+    values.forEach((val) => {
       $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell">${val}</div>`);
     });
   };
+  return { display };
+})();
 
-  return { displayGameboard };
+const DisplayController = (function () {
+  return;
 })();
 
 const Player = function (playerName) {
@@ -22,4 +20,4 @@ const Player = function (playerName) {
   return { name };
 };
 
-DisplayController.displayGameboard(Gameboard.gameboardArray);
+Gameboard.display();
