@@ -1,0 +1,38 @@
+/* ############################################################
+########################### GLOBALS ###########################
+############################################################ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ############################################################
+########################### GAMEBOARD ###########################
+############################################################ */
+
+.gameboard {
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.gameboard-cell {
+  border: 1px solid red;
+}
