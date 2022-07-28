@@ -22,11 +22,10 @@ const Interface = (function () {
 
     if (clickedCell.textContent) return; // Don't overwrite cells that have already been clicked
 
-    // drawSymbol(clickedCell, symbol);
+    Game.setActivePlayer("user");
     Game.setCell(cellId);
     updateGameboard();
 
-    // AI.makeMove();
     if (Game.checkForWinner(cellId)) {
       disableInput();
       showResult(Game.getActivePlayer().name);
@@ -37,7 +36,10 @@ const Interface = (function () {
       showResult();
       return;
     }
-    Game.switchActivePlayer();
+
+    Game.setActivePlayer("computer");
+    AI.makeMove();
+    updateGameboard();
   }
 
   function showResult(winner) {
@@ -59,10 +61,6 @@ const Interface = (function () {
     $gameboard.removeEventListener("click", handleCellClicks);
   }
 
-  function drawSymbol(clickedCell, symbol) {
-    clickedCell.textContent = symbol;
-  }
-
   function clearGameboard() {
     $gameboard.innerHTML = "";
   }
@@ -79,7 +77,7 @@ const Interface = (function () {
     updateGameboard();
   }
 
-  return { init, reset, drawSymbol };
+  return { init, reset };
 })();
 
 const Game = (function () {
@@ -97,12 +95,13 @@ const Game = (function () {
     return activePlayer;
   }
 
-  function setCell(id) {
-    values[id] = activePlayer.symbol;
+  function setActivePlayer(player) {
+    if (player === "user") activePlayer = playerUser;
+    if (player === "computer") activePlayer = playerComputer;
   }
 
-  function switchActivePlayer() {
-    activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
+  function setCell(id) {
+    values[id] = activePlayer.symbol;
   }
 
   function checkForWinner(id) {
@@ -163,7 +162,7 @@ const Game = (function () {
     Interface.init();
   }
 
-  return { init, getGameboardValues, getActivePlayer, setCell, start, switchActivePlayer, checkForWinner, checkIfFull };
+  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, checkForWinner, checkIfFull };
 })();
 
 const AI = (function () {
@@ -171,7 +170,7 @@ const AI = (function () {
 
   function makeMove() {
     updateFreeCells();
-    Interface.drawSymbol(getRandomPosition(), "O");
+    Game.setCell(getRandomPosition());
   }
 
   function updateFreeCells() {
