@@ -16,26 +16,14 @@ const Interface = (function () {
   }
 
   function handleCellClicks(e) {
-    const clickedCell = e.target;
-    const cellId = Number(clickedCell.dataset.id);
-    const symbol = Game.getActivePlayer().symbol;
+    const cellId = Number(e.target.dataset.id);
 
-    if (clickedCell.textContent) return; // Don't overwrite cells that have already been clicked
+    if (Game.getGameboardValues()[cellId]) return; // Don't overwrite cells that have already been clicked
 
     Game.setActivePlayer("user");
     Game.setCell(cellId);
     updateGameboard();
-
-    if (Game.checkForWinner(cellId)) {
-      disableInput();
-      showResult(Game.getActivePlayer().name);
-      return;
-    }
-    if (Game.checkIfFull()) {
-      disableInput();
-      showResult();
-      return;
-    }
+    if (Game.isOver(cellId)) return;
 
     Game.setActivePlayer("computer");
     AI.makeMove();
@@ -77,7 +65,7 @@ const Interface = (function () {
     updateGameboard();
   }
 
-  return { init, reset };
+  return { init, reset, disableInput, showResult };
 })();
 
 const Game = (function () {
@@ -102,6 +90,19 @@ const Game = (function () {
 
   function setCell(id) {
     values[id] = activePlayer.symbol;
+  }
+
+  function isOver(cellId) {
+    if (checkForWinner(cellId)) {
+      Interface.disableInput();
+      Interface.showResult(getActivePlayer().name);
+      return true;
+    }
+    if (checkIfFull()) {
+      Interface.disableInput();
+      Interface.showResult();
+      return true;
+    }
   }
 
   function checkForWinner(id) {
@@ -162,7 +163,7 @@ const Game = (function () {
     Interface.init();
   }
 
-  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, checkForWinner, checkIfFull };
+  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver };
 })();
 
 const AI = (function () {
@@ -170,7 +171,9 @@ const AI = (function () {
 
   function makeMove() {
     updateFreeCells();
-    Game.setCell(getRandomPosition());
+    const cellId = getRandomPosition();
+    Game.setCell(cellId);
+    Game.isOver(cellId);
   }
 
   function updateFreeCells() {
