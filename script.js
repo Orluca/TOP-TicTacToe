@@ -10,6 +10,7 @@ const Interface = (function () {
   const $resultDisplay = document.querySelector(".result-display");
 
   function updateGameboard() {
+    $gameboard.innerHTML = "";
     const values = Game.getGameboardValues();
     values.forEach((val, i) => $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
   }
@@ -21,10 +22,11 @@ const Interface = (function () {
 
     if (clickedCell.textContent) return; // Don't overwrite cells that have already been clicked
 
-    drawSymbol(clickedCell, symbol);
+    // drawSymbol(clickedCell, symbol);
     Game.setCell(cellId);
+    updateGameboard();
 
-    AI.makeMove();
+    // AI.makeMove();
     if (Game.checkForWinner(cellId)) {
       disableInput();
       showResult(Game.getActivePlayer().name);
@@ -77,7 +79,7 @@ const Interface = (function () {
     updateGameboard();
   }
 
-  return { init, reset };
+  return { init, reset, drawSymbol };
 })();
 
 const Game = (function () {
@@ -169,7 +171,7 @@ const AI = (function () {
 
   function makeMove() {
     updateFreeCells();
-    console.log(freeCells);
+    Interface.drawSymbol(getRandomPosition(), "O");
   }
 
   function updateFreeCells() {
