@@ -24,6 +24,7 @@ const Interface = (function () {
     drawSymbol(clickedCell, symbol);
     Game.setCell(cellId);
 
+    AI.makeMove();
     if (Game.checkForWinner(cellId)) {
       disableInput();
       showResult(Game.getActivePlayer().name);
@@ -161,6 +162,29 @@ const Game = (function () {
   }
 
   return { init, getGameboardValues, getActivePlayer, setCell, start, switchActivePlayer, checkForWinner, checkIfFull };
+})();
+
+const AI = (function () {
+  let freeCells = [];
+
+  function makeMove() {
+    updateFreeCells();
+    console.log(freeCells);
+  }
+
+  function updateFreeCells() {
+    const cellsArray = Game.getGameboardValues();
+    freeCells = cellsArray.reduce((acc, cell, i) => {
+      if (cell === "") acc.push(i);
+      return acc;
+    }, []);
+  }
+
+  function getRandomPosition() {
+    return freeCells[Math.floor(Math.random() * freeCells.length)];
+  }
+
+  return { makeMove };
 })();
 
 Game.init();
