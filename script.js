@@ -64,12 +64,19 @@ const Interface = (function () {
     $gameboard.innerHTML = "";
   }
 
+  function reset() {
+    enableInput();
+    hideResult();
+    clearGameboard();
+    updateGameboard();
+  }
+
   function init() {
     $btnStart.addEventListener("click", Game.start);
     updateGameboard();
   }
 
-  return { init, enableInput, hideResult, clearGameboard, updateGameboard };
+  return { init, reset };
 })();
 
 const Game = (function () {
@@ -146,11 +153,7 @@ const Game = (function () {
 
   function start() {
     resetVariables();
-
-    Interface.enableInput();
-    Interface.hideResult();
-    Interface.clearGameboard();
-    Interface.updateGameboard();
+    Interface.reset();
   }
 
   function init() {
