@@ -84,6 +84,10 @@ const Game = (function () {
     return activePlayer;
   }
 
+  function getWinTracker() {
+    return winTracker;
+  }
+
   function setActivePlayer(player) {
     if (player === "user") activePlayer = playerUser;
     if (player === "computer") activePlayer = playerComputer;
@@ -172,7 +176,7 @@ const Game = (function () {
     Interface.init();
   }
 
-  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove, endMatch };
+  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove, endMatch, getWinTracker };
 })();
 
 const AI = (function () {
@@ -181,10 +185,39 @@ const AI = (function () {
   function makeMove() {
     Game.setActivePlayer("computer");
     updateFreeCells();
-    const cellId = getRandomPosition();
+    let cellId = getRandomPosition();
+    if (detectUser3s()) cellId = detectUser3s();
     Game.setCell(cellId);
     Interface.updateGameboard();
     return cellId;
+  }
+
+  function testtemp(pos) {
+    if (pos === "row1") return [0, 1, 2];
+    if (pos === "row2") return [3, 4, 5];
+    if (pos === "row3") return [6, 7, 8];
+    if (pos === "col1") return [0, 3, 6];
+    if (pos === "col2") return [1, 4, 7];
+    if (pos === "col3") return [2, 5, 8];
+    if (pos === "diag1") return [0, 4, 8];
+    if (pos === "diag2") return [2, 4, 6];
+  }
+
+  function detectUser3s() {
+    const winTracker = Game.getWinTracker();
+    let id;
+
+    for (const prop in winTracker) {
+      if (winTracker[prop] === 2) {
+        const positions = testtemp(prop);
+        const values = Game.getGameboardValues();
+        positions.forEach((pos) => {
+          if (values[pos] === "") id = pos;
+        });
+      }
+    }
+
+    return id;
   }
 
   function updateFreeCells() {
