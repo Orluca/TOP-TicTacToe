@@ -15,22 +15,16 @@ const Interface = (function () {
     values.forEach((val, i) => $gameboard.insertAdjacentHTML("beforeend", `<div class="gameboard-cell" data-id="${i}">${val}</div>`));
   }
 
-  function userMove(cellId) {
-    Game.setActivePlayer("user");
-    Game.setCell(cellId);
-    updateGameboard();
-    if (Game.isOver(cellId)) return true;
-  }
-
   function handleCellClicks(e) {
     const cellId = Number(e.target.dataset.id);
 
     if (Game.getGameboardValues()[cellId]) return; // Don't overwrite cells that have already been clicked
-    if (userMove(cellId)) {
+
+    if (Game.isOver(Game.userMove(cellId))) {
       endMatch();
       return;
     }
-    if (AI.makeMove()) {
+    if (Game.isOver(AI.makeMove())) {
       endMatch();
       return;
     }
@@ -164,6 +158,13 @@ const Game = (function () {
     values = new Array(9).fill("");
   }
 
+  function userMove(cellId) {
+    setActivePlayer("user");
+    setCell(cellId);
+    Interface.updateGameboard();
+    return cellId;
+  }
+
   function start() {
     resetVariables();
     Interface.reset();
@@ -173,7 +174,7 @@ const Game = (function () {
     Interface.init();
   }
 
-  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver };
+  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove };
 })();
 
 const AI = (function () {
@@ -185,7 +186,7 @@ const AI = (function () {
     const cellId = getRandomPosition();
     Game.setCell(cellId);
     Interface.updateGameboard();
-    if (Game.isOver(cellId)) return true;
+    return cellId;
   }
 
   function updateFreeCells() {
