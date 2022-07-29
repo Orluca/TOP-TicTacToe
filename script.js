@@ -187,6 +187,7 @@ const AI = (function () {
     updateFreeCells();
     let cellId = getRandomPosition();
     if (detectUser3s()) cellId = detectUser3s();
+    if (detectOwn3s()) cellId = detectOwn3s();
     Game.setCell(cellId);
     Interface.updateGameboard();
     return cellId;
@@ -201,6 +202,23 @@ const AI = (function () {
     if (pos === "col3") return [2, 5, 8];
     if (pos === "diag1") return [0, 4, 8];
     if (pos === "diag2") return [2, 4, 6];
+  }
+
+  function detectOwn3s() {
+    const winTracker = Game.getWinTracker();
+    let id;
+
+    for (const prop in winTracker) {
+      if (winTracker[prop] === -2) {
+        const positions = testtemp(prop);
+        const values = Game.getGameboardValues();
+        positions.forEach((pos) => {
+          if (values[pos] === "") id = pos;
+        });
+      }
+    }
+
+    return id;
   }
 
   function detectUser3s() {
