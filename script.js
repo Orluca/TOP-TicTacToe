@@ -21,17 +21,13 @@ const Interface = (function () {
     if (Game.getGameboardValues()[cellId]) return; // Don't overwrite cells that have already been clicked
 
     if (Game.isOver(Game.userMove(cellId))) {
-      endMatch();
+      Game.endMatch();
       return;
     }
     if (Game.isOver(AI.makeMove())) {
-      endMatch();
+      Game.endMatch();
       return;
     }
-  }
-
-  function endMatch() {
-    console.log("Placeholder");
   }
 
   function showResult(winner) {
@@ -78,6 +74,7 @@ const Game = (function () {
   let activePlayer;
   let winTracker;
   let values = new Array(9).fill("");
+  let winner;
 
   function getGameboardValues() {
     return values;
@@ -96,17 +93,17 @@ const Game = (function () {
     values[id] = activePlayer.symbol;
   }
 
+  function endMatch() {
+    Interface.disableInput();
+    Interface.showResult(winner);
+  }
+
   function isOver(cellId) {
     if (checkForWinner(cellId)) {
-      Interface.disableInput();
-      Interface.showResult(getActivePlayer().name);
+      winner = getActivePlayer().name;
       return true;
     }
-    if (checkIfFull()) {
-      Interface.disableInput();
-      Interface.showResult();
-      return true;
-    }
+    if (checkIfFull()) return true;
   }
 
   function checkForWinner(id) {
@@ -156,6 +153,7 @@ const Game = (function () {
     activePlayer = playerUser;
     winTracker = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
     values = new Array(9).fill("");
+    winner = "";
   }
 
   function userMove(cellId) {
@@ -174,7 +172,7 @@ const Game = (function () {
     Interface.init();
   }
 
-  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove };
+  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove, endMatch };
 })();
 
 const AI = (function () {
