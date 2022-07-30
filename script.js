@@ -12,6 +12,7 @@ const Interface = (function () {
 
     if (Game.cellIsOccupied(id)) return;
 
+    // HUMAN PLAYER MOVE
     Game.setCell(id);
     Game.updateGameboard();
 
@@ -25,6 +26,10 @@ const Interface = (function () {
     }
 
     Game.switchActivePlayer();
+
+    // AI MOVE
+    AI.minimax();
+    // Game.switchActivePlayer();
   }
 
   function init() {
@@ -39,6 +44,17 @@ const Game = (function () {
   const playerComputer = Player("CPU", "O");
   let gameboard;
   let activePlayer;
+
+  function getGameboard() {
+    return gameboard;
+  }
+
+  function getEmptyCells() {
+    return gameboard.reduce((acc, cell, i) => {
+      if (cell === "") acc.push(i);
+      return acc;
+    }, []);
+  }
 
   function updateGameboard() {
     const $cells = document.querySelectorAll(".cell");
@@ -80,8 +96,8 @@ const Game = (function () {
 
     // prettier-ignore
     return winningCombos
-      .filter(comb => comb.includes(id))
-      .some(comb => comb.every(i => gameboard[i] === activePlayer.symbol))
+      .filter(cmb => cmb.includes(id))
+      .some(cmb => cmb.every(i => gameboard[i] === activePlayer.symbol))
   }
 
   function end(result) {
@@ -95,9 +111,24 @@ const Game = (function () {
     updateGameboard();
   }
 
-  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied, checkForWinner, checkForDraw, end };
+  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied, checkForWinner, checkForDraw, end, getGameboard, getEmptyCells };
 })();
 
-const AI = (function () {})();
+const AI = (function () {
+  function minimax() {
+    // get (free) gameboard ids
+    const emptyCells = Game.getEmptyCells();
+    emptyCells.forEach((cell, i) => {
+      //   Game.setCell(cell);
+      //   Game.updateGameboard();
+      // Set "O" on the cell
+      // Check if the game is over
+      // If yes, give points and return
+      // If not, make opponent move
+    });
+  }
+
+  return { minimax };
+})();
 
 Game.init();
