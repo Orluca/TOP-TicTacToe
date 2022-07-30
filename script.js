@@ -173,10 +173,11 @@ const Game = (function () {
   }
 
   function init() {
+    resetVariables();
     Interface.init();
   }
 
-  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove, endMatch, getWinTracker };
+  return { init, getGameboardValues, getActivePlayer, setCell, start, setActivePlayer, isOver, userMove, endMatch, getWinTracker, checkForWinner, checkIfFull };
 })();
 
 const AI = (function () {
@@ -250,7 +251,33 @@ const AI = (function () {
     return freeCells[Math.floor(Math.random() * freeCells.length)];
   }
 
-  return { makeMove };
+  const minimax = function (gameboard, activeSymbol) {
+    if (!gameboard.includes("")) return;
+
+    gameboard.forEach((cell, i) => {
+      if (cell === "") {
+        gameboard[i] = activeSymbol;
+        if (Game.checkIfFull(i)) {
+          console.log("draw");
+        }
+        if (Game.checkForWinner(i)) {
+          console.log("winner");
+        }
+        gameboard[i] = "";
+        activeSymbol = activeSymbol === "O" ? "X" : "O";
+        console.log(gameboard);
+        // minimax(gameboard, activeSymbol);
+      }
+    });
+  };
+
+  return { makeMove, minimax };
 })();
 
 Game.init();
+
+// ###################################################################
+// ###################################################################
+// ###################################################################
+const gameboard = ["X", "", "", "", "", "", "", "", ""];
+AI.minimax(gameboard, "O");
