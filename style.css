@@ -21,6 +21,7 @@ html {
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -32,15 +33,18 @@ html {
 .gameboard {
   height: 600px;
   width: 600px;
-  /* background-color: #fff; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
 }
 
 .cell {
-  /* background-color: rgb(180, 211, 129); */
   border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .cell:nth-child(1),
