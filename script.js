@@ -9,8 +9,11 @@ const Interface = (function () {
 
   function handleCellClicks(e) {
     const id = e.target.dataset.id;
-    Game.setCell(id, "X");
+
+    if (!Game.cellIsOccupied(id)) return;
+    Game.setCell(id);
     Game.updateGameboard();
+    Game.switchActivePlayer();
   }
 
   function init() {
@@ -21,23 +24,40 @@ const Interface = (function () {
 })();
 
 const Game = (function () {
-  let gameboard = new Array(9).fill("");
+  const playerUser = Player("User", "X");
+  const playerComputer = Player("CPU", "O");
+  let gameboard;
+  let activePlayer;
 
   function updateGameboard() {
     const $cells = document.querySelectorAll(".cell");
     $cells.forEach((cell, i) => (cell.textContent = gameboard[i]));
   }
 
-  function setCell(id, symbol) {
-    gameboard[id] = symbol;
+  function cellIsOccupied(id) {
+    return gameboard[id] ? false : true;
+  }
+
+  function setCell(id) {
+    gameboard[id] = activePlayer.symbol;
+  }
+
+  function switchActivePlayer() {
+    activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
+  }
+
+  function resetVariables() {
+    activePlayer = playerUser;
+    gameboard = new Array(9).fill("");
   }
 
   function init() {
     Interface.init();
+    resetVariables();
     updateGameboard();
   }
 
-  return { init, setCell, updateGameboard };
+  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied };
 })();
 
 const AI = (function () {})();
