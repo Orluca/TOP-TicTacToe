@@ -8,11 +8,22 @@ const Interface = (function () {
   const $gameboard = document.querySelector(".gameboard");
 
   function handleCellClicks(e) {
-    const id = e.target.dataset.id;
+    const id = Number(e.target.dataset.id);
 
-    if (!Game.cellIsOccupied(id)) return;
+    if (Game.cellIsOccupied(id)) return;
+
     Game.setCell(id);
     Game.updateGameboard();
+
+    if (Game.checkForWinner(id)) {
+      Game.end("win");
+      return;
+    }
+    if (Game.checkForDraw()) {
+      Game.end("draw");
+      return;
+    }
+
     Game.switchActivePlayer();
   }
 
@@ -35,7 +46,7 @@ const Game = (function () {
   }
 
   function cellIsOccupied(id) {
-    return gameboard[id] ? false : true;
+    return gameboard[id] ? true : false;
   }
 
   function setCell(id) {
@@ -51,13 +62,40 @@ const Game = (function () {
     gameboard = new Array(9).fill("");
   }
 
+  function checkForDraw() {
+    return !gameboard.includes("");
+  }
+
+  function checkForWinner(id) {
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    // prettier-ignore
+    return winningCombos
+      .filter(comb => comb.includes(id))
+      .some(comb => comb.every(i => gameboard[i] === activePlayer.symbol))
+  }
+
+  function end(result) {
+    if (result === "win") console.log(`${activePlayer.name} wins the game!`);
+    if (result === "draw") console.log(`It's a draw!`);
+  }
+
   function init() {
     Interface.init();
     resetVariables();
     updateGameboard();
   }
 
-  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied };
+  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied, checkForWinner, checkForDraw, end };
 })();
 
 const AI = (function () {})();
