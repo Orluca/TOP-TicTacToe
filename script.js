@@ -16,7 +16,7 @@ const Interface = (function () {
     Game.setCell(id);
     Game.updateGameboard();
 
-    if (Game.checkForWinner(id)) {
+    if (Game.checkForWinner()) {
       Game.end("win");
       return;
     }
@@ -28,7 +28,7 @@ const Interface = (function () {
     Game.switchActivePlayer();
 
     // AI MOVE
-    AI.minimax();
+    const bestMoveId = AI.makeMove();
     // Game.switchActivePlayer();
   }
 
@@ -61,6 +61,10 @@ const Game = (function () {
     $cells.forEach((cell, i) => (cell.textContent = gameboard[i]));
   }
 
+  function getActivePlayer() {
+    return activePlayer;
+  }
+
   function cellIsOccupied(id) {
     return gameboard[id] ? true : false;
   }
@@ -82,7 +86,7 @@ const Game = (function () {
     return !gameboard.includes("");
   }
 
-  function checkForWinner(id) {
+  function checkForWinner() {
     const winningCombos = [
       [0, 1, 2],
       [3, 4, 5],
@@ -94,10 +98,7 @@ const Game = (function () {
       [2, 4, 6],
     ];
 
-    // prettier-ignore
-    return winningCombos
-      .filter(cmb => cmb.includes(id))
-      .some(cmb => cmb.every(i => gameboard[i] === activePlayer.symbol))
+    if (winningCombos.some((cmb) => cmb.every((i) => gameboard[i] === activePlayer.symbol))) return activePlayer.name;
   }
 
   function end(result) {
@@ -111,24 +112,37 @@ const Game = (function () {
     updateGameboard();
   }
 
-  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied, checkForWinner, checkForDraw, end, getGameboard, getEmptyCells };
+  return { init, setCell, updateGameboard, switchActivePlayer, cellIsOccupied, checkForWinner, checkForDraw, end, getGameboard, getEmptyCells, getActivePlayer };
 })();
 
 const AI = (function () {
-  function minimax() {
-    // get (free) gameboard ids
-    const emptyCells = Game.getEmptyCells();
-    emptyCells.forEach((cell, i) => {
-      //   Game.setCell(cell);
-      //   Game.updateGameboard();
-      // Set "O" on the cell
-      // Check if the game is over
-      // If yes, give points and return
-      // If not, make opponent move
+  function makeMove() {
+    let bestScore = -Infinity;
+    let bestMove;
+    const gameboard = Game.getGameboard();
+
+    gameboard.forEach((cell, i) => {
+      if (gameboard[i] === "") {
+        gameboard[i] = "X";
+        let score = minimax(gameboard);
+        gameboard[i] = "";
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = i;
+        }
+      }
     });
+
+    Game.setCell(bestMove);
+    Game.updateGameboard();
+    Game.switchActivePlayer();
   }
 
-  return { minimax };
+  function minimax(gameboard, player, depth) {
+    return 1;
+  }
+
+  return { makeMove };
 })();
 
 Game.init();
