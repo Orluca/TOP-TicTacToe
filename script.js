@@ -124,7 +124,7 @@ const AI = (function () {
     gameboard.forEach((cell, i) => {
       if (gameboard[i] === "") {
         gameboard[i] = "X";
-        let score = minimax(gameboard);
+        let score = minimax(gameboard, false, 0);
         gameboard[i] = "";
         if (score > bestScore) {
           bestScore = score;
@@ -138,8 +138,35 @@ const AI = (function () {
     Game.switchActivePlayer();
   }
 
-  function minimax(gameboard, player, depth) {
-    return 1;
+  function minimax(gameboard, isMax, depth) {
+    let score;
+    if (Game.checkForWinner === "User") return 1;
+    if (Game.checkForWinner === "CPU") return -1;
+    if (Game.checkForDraw) return 0;
+
+    if (isMax) {
+      let bestScore = -Infinity;
+      gameboard.forEach((cell, i) => {
+        if (gameboard[i] === "") {
+          gameboard[i] === "X";
+          let score = minimax(gameboard, false, depth + 1);
+          gameboard[i] === "";
+          bestScore = max(score, bestScore);
+        }
+      });
+      return bestScore;
+    } else if (!isMax) {
+      let bestScore = Infinity;
+      gameboard.forEach((cell, i) => {
+        if (gameboard[i] === "") {
+          gameboard[i] === "O";
+          let score = minimax(gameboard, true, depth + 1);
+          gameboard[i] === "";
+          bestScore = min(score, bestScore);
+        }
+      });
+      return bestScore;
+    }
   }
 
   return { makeMove };
