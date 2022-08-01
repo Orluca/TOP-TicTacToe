@@ -69,7 +69,7 @@ function computerMoveImpossible() {
       // Set the current cell to "O"
       gameboard[i] = "O";
       // Based on this new gameboard, calc the score for the current cell using MINIMAX
-      const score = minimax(gameboard, true);
+      const score = minimax(gameboard, true, 0);
       // Undo the gameboard move
       gameboard[i] = "";
       // If the score is bigger than the current bestScore, reassign it and use current move as best move
@@ -84,11 +84,12 @@ function computerMoveImpossible() {
   updateGameboard();
 }
 
-function minimax(gameboard, isMax) {
+function minimax(gameboard, isMax, depth) {
   // Check if game is over, either through a winner or because of a draw
-  if (checkForWinner() === "user") return 10;
-  if (checkForWinner() === "cpu") return -10;
-  if (checkForWinner() === "draw") return 0;
+  const result = checkForWinner();
+  if (result === "cpu") return 10 - depth;
+  else if (result === "user") return depth - 10;
+  else if (result === "draw") return 0;
 
   // Go through each remaining empty cell and calc the score for each. Then choose the one with the best score for the CURRENT PLAYER
   if (isMax) {
@@ -96,7 +97,7 @@ function minimax(gameboard, isMax) {
     gameboard.forEach((_cell, i) => {
       if (gameboard[i] === "") {
         gameboard[i] = "X";
-        const score = minimax(gameboard, false);
+        const score = minimax(gameboard, false, depth + 1);
         gameboard[i] = "";
         bestScore = Math.max(score, bestScore);
       }
@@ -107,7 +108,7 @@ function minimax(gameboard, isMax) {
     gameboard.forEach((_cell, i) => {
       if (gameboard[i] === "") {
         gameboard[i] = "O";
-        const score = minimax(gameboard, false);
+        const score = minimax(gameboard, true, depth + 1);
         gameboard[i] = "";
         bestScore = Math.min(score, bestScore);
       }
