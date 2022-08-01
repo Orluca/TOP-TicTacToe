@@ -42,15 +42,19 @@ function computerMoveEasy() {
   updateGameboard();
 }
 
+// Go through each remaining empty cell and calc its score with minimax. Then choose the cell with highest score and place "O" in it
 function computerMoveImpossible() {
-  // Go through each remaining empty cell and calc its score with minimax. Then choose the cell with highest score and place "O"
   let bestScore = -Infinity;
   let bestMove;
 
   gameboard.forEach((cell, i) => {
-    if (cell === "") {
-      // Calc the score for the current cell using MINIMAX
+    if (gameboard[i] === "") {
+      // Set the current cell to "O"
+      gameboard[i] = "O";
+      // Based on this new gameboard, calc the score for the current cell using MINIMAX
       const score = minimax();
+      // Undo the gameboard move
+      gameboard[i] = "";
       // If the score is bigger than the current bestScore, reassign it and use current move as best move
       if (score > bestScore) {
         bestScore = score;
@@ -64,7 +68,6 @@ function computerMoveImpossible() {
 }
 
 function minimax() {
-  console.log("minimax");
   return 1;
 }
 
