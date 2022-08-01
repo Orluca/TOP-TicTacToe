@@ -167,9 +167,9 @@ const AI = (function () {
       let bestScore = -Infinity;
       gameboard.forEach((cell, i) => {
         if (gameboard[i] === "") {
-          gameboard[i] === "X";
+          gameboard[i] = "X";
           let score = minimax(gameboard, false, depth + 1);
-          gameboard[i] === "";
+          gameboard[i] = "";
           bestScore = max(score, bestScore);
         }
       });
@@ -178,9 +178,9 @@ const AI = (function () {
       let bestScore = Infinity;
       gameboard.forEach((cell, i) => {
         if (gameboard[i] === "") {
-          gameboard[i] === "O";
+          gameboard[i] = "O";
           let score = minimax(gameboard, true, depth + 1);
-          gameboard[i] === "";
+          gameboard[i] = "";
           bestScore = min(score, bestScore);
         }
       });
