@@ -69,7 +69,7 @@ function computerMoveImpossible() {
       // Set the current cell to "O"
       gameboard[i] = "O";
       // Based on this new gameboard, calc the score for the current cell using MINIMAX
-      const score = minimax(gameboard, true, 0);
+      const score = minimax(gameboard, false, 0);
       // Undo the gameboard move
       gameboard[i] = "";
       // If the score is bigger than the current bestScore, reassign it and use current move as best move
@@ -96,7 +96,7 @@ function minimax(gameboard, isMax, depth) {
     let bestScore = -Infinity;
     gameboard.forEach((_cell, i) => {
       if (gameboard[i] === "") {
-        gameboard[i] = "X";
+        gameboard[i] = "O";
         const score = minimax(gameboard, false, depth + 1);
         gameboard[i] = "";
         bestScore = Math.max(score, bestScore);
@@ -107,7 +107,7 @@ function minimax(gameboard, isMax, depth) {
     let bestScore = Infinity;
     gameboard.forEach((_cell, i) => {
       if (gameboard[i] === "") {
-        gameboard[i] = "O";
+        gameboard[i] = "X";
         const score = minimax(gameboard, true, depth + 1);
         gameboard[i] = "";
         bestScore = Math.min(score, bestScore);
@@ -134,4 +134,5 @@ function handleCellClicks(e) {
 // ####################### EVENT LISTENERS #######################
 // ###############################################################
 
+computerMoveImpossible();
 $gameboard.addEventListener("click", handleCellClicks);
