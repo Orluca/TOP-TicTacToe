@@ -18,19 +18,31 @@ html {
 
 body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 .app-container {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* flex-direction: row; */
-  /* justify-content: center; */
-  /* row-gap: 1rem; */
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+}
+
+/* ############################################################
+############################ HEADER ###########################
+############################################################ */
+header {
+  background-color: blueviolet;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+}
+
+h1 {
+  font-size: 5rem;
 }
 
 /* ############################################################
@@ -45,7 +57,6 @@ body {
   grid-template-rows: repeat(3, 1fr);
   border: 2px solid black;
   border-radius: 20px;
-  /* flex-grow: 1; */
   justify-self: center;
 }
 
@@ -99,4 +110,29 @@ body {
   border: 1px solid black;
   /* flex-grow: 1; */
   width: fit-content;
+}
+
+/* ############################################################
+############################ FOOTER ###########################
+############################################################ */
+footer {
+  background-color: aquamarine;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.github-link {
+  /* position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2; */
+  margin: 1rem;
+  font-size: clamp(1.1rem, 1.5vw + 1vh, 1.5rem);
+  color: rgb(30, 30, 30);
+}
+
+.github-link:hover {
+  color: rgb(131, 187, 255);
 }

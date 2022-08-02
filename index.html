@@ -6,35 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="script.js" defer></script>
   </head>
   <body>
-    <div class="app-container">
-      <div class="side-container">
-        <div class="player-container">
-          <div class="player-name">Human</div>
-          <div class="player-symbol">X</div>
-          <div class="player-score">Score: 3</div>
+    <header>
+      <h1>Tic Tac Toe</h1>
+    </header>
+    <main>
+      <div class="app-container">
+        <div class="side-container">
+          <div class="player-container">
+            <div class="player-name">Human</div>
+            <div class="player-symbol">X</div>
+            <div class="player-score">Score: 3</div>
+          </div>
+        </div>
+        <div class="gameboard">
+          <div class="cell" data-id="0"></div>
+          <div class="cell" data-id="1"></div>
+          <div class="cell" data-id="2"></div>
+          <div class="cell" data-id="3"></div>
+          <div class="cell" data-id="4"></div>
+          <div class="cell" data-id="5"></div>
+          <div class="cell" data-id="6"></div>
+          <div class="cell" data-id="7"></div>
+          <div class="cell" data-id="8"></div>
+        </div>
+        <div class="side-container">
+          <div class="player-container">
+            <div class="player-name">AI (Unbeatable)</div>
+            <div class="player-symbol">O</div>
+            <div class="player-score">3</div>
+          </div>
         </div>
       </div>
-      <div class="gameboard">
-        <div class="cell" data-id="0"></div>
-        <div class="cell" data-id="1"></div>
-        <div class="cell" data-id="2"></div>
-        <div class="cell" data-id="3"></div>
-        <div class="cell" data-id="4"></div>
-        <div class="cell" data-id="5"></div>
-        <div class="cell" data-id="6"></div>
-        <div class="cell" data-id="7"></div>
-        <div class="cell" data-id="8"></div>
-      </div>
-      <div class="side-container">
-        <div class="player-container">
-          <div class="player-name">AI (Unbeatable)</div>
-          <div class="player-symbol">O</div>
-          <div class="player-score">3</div>
-        </div>
-      </div>
-    </div>
+    </main>
+    <footer>
+      <a class="github-link" href="https://github.com/Orluca/TOP-calculator" target="_blank"><i class="fa-brands fa-github"></i></a>
+    </footer>
   </body>
 </html>
