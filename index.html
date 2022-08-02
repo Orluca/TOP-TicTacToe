@@ -15,33 +15,35 @@
     </header>
     <main>
       <div class="round-counter">Round 3</div>
-      <div class="app-container">
-        <div class="side-container">
-          <div class="player-container">
-            <div class="player-name">Human</div>
-            <div class="player-symbol">X</div>
-            <div class="player-score">Score: 3</div>
-          </div>
+      <div class="gameboard">
+        <div class="cell" data-id="0"><i class="fa-solid fa-x"></i></div>
+        <div class="cell" data-id="1"></div>
+        <div class="cell" data-id="2"></div>
+        <div class="cell" data-id="3"><i class="fa-solid fa-o"></i></div>
+        <div class="cell" data-id="4"></div>
+        <div class="cell" data-id="5"></div>
+        <div class="cell" data-id="6"></div>
+        <div class="cell" data-id="7"></div>
+        <div class="cell" data-id="8"></div>
+      </div>
+      <div class="side-container" id="left-side">
+        <div class="player-container">
+          <div class="player-symbol"><i class="fa-solid fa-x"></i></div>
+          <div class="player-name">Human</div>
+          <div class="player-score">Score: 3</div>
         </div>
-        <div class="gameboard">
-          <div class="cell" data-id="0"><i class="fa-solid fa-x"></i></div>
-          <div class="cell" data-id="1"></div>
-          <div class="cell" data-id="2"></div>
-          <div class="cell" data-id="3"><i class="fa-solid fa-o"></i></div>
-          <div class="cell" data-id="4"></div>
-          <div class="cell" data-id="5"></div>
-          <div class="cell" data-id="6"></div>
-          <div class="cell" data-id="7"></div>
-          <div class="cell" data-id="8"></div>
+      </div>
+      <div class="side-container" id="right-side">
+        <div class="player-container">
+          <div class="player-symbol"><i class="fa-solid fa-o"></i></div>
+          <div class="player-name">AI</div>
+          <!-- <div class="player-difficulty">Unbeatable</div> -->
+          <div class="player-score">Score: 3</div>
         </div>
-        <div class="side-container">
-          <div class="player-container">
-            <div class="player-name">AI</div>
-            <!-- <div class="player-difficulty">Unbeatable</div> -->
-            <div class="player-symbol">O</div>
-            <div class="player-score">Score: 3</div>
-          </div>
-        </div>
+      </div>
+      <div class="buttons">
+        <button class="btn-return">Return</button>
+        <button class="btn-reset">Reset</button>
       </div>
     </main>
     <footer>
