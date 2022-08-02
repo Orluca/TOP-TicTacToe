@@ -20,6 +20,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 2fr 15fr 1fr;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 }
 
 /* ############################################################
@@ -51,6 +52,7 @@ main {
   grid-area: 3 / 1 / 4 / 4;
   justify-self: center;
   display: flex;
+  column-gap: 1rem;
 }
 
 .buttons button {
@@ -78,17 +80,34 @@ h1 {
 ######################### GAMEBOARD #########################
 ############################################################ */
 
-.gameboard {
+.gameboard,
+.gameboard-overlay {
   grid-area: 2 / 2 / 3 / 3;
   height: 500px;
   width: 500px;
+  border-radius: 20px;
+  justify-self: center;
+  align-self: center;
+}
+
+.gameboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   border: 2px solid black;
-  border-radius: 20px;
-  justify-self: center;
-  align-self: center;
+}
+
+.gameboard-overlay {
+  background-color: rgba(0, 0, 0, 0.805);
+  z-index: 1;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.result-message {
+  font-size: 5rem;
 }
 
 .cell {
@@ -177,4 +196,12 @@ footer {
 
 .github-link:hover {
   color: rgb(131, 187, 255);
+}
+
+/* ############################################################
+####################### UTILITY CLASSES #######################
+############################################################ */
+
+.hidden {
+  display: none;
 }
