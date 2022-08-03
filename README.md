@@ -2,9 +2,6 @@
 
 Tic Tac Toe project from "The Odin Project"
 
-### Next steps
+### Design todos
 
-- before anything, REFACTOR code
-- add functionality: choose to play
-- add AI
-- make look nice
+- [ ] NEW GAME Modal: make buttons look nicer

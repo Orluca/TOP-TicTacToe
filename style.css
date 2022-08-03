@@ -7,16 +7,13 @@
   --color-background-main: #30242c;
   --color-background-footer: #1e181c;
   --color-background-gameboard: #ffffff;
-  /* --color-background-players: #bfdfe7;
-  --color-background-players: #f2efb3; */
   --color-background-players: #4e5055;
-  --color-background-modal: #303231;
+  --color-background-modal: #2c2c2c;
   --color-symbol-1: #f87060;
   --color-symbol-2: #8390fa;
-  --color-text-1: #fdf0d5;
+  --color-text-1: #fffaef;
   --color-text-2: #111111;
   --color-button-startgame: #ff256e;
-  /* --color-button-startgame: #43dd79; */
   --color-button-newgame: #238e3f;
   --color-button-reset: #c62a46;
 }
