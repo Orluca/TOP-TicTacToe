@@ -3,13 +3,16 @@
 ############################################################ */
 
 :root {
-  --color-background-header: #2f3e46;
-  --color-background-main: #354f52;
-  --color-background-footer: #2f3e46;
+  --color-background-header: #1e2529;
+  --color-background-main: #2f3e46;
+  --color-background-footer: #1e2529;
   --color-background-gameboard: #cad2c5;
   --color-background-players: #84a98c;
-  --color-symbol-1: #ffa17a;
-  --color-symbol-2: #cd8fff;
+  --color-background-modal: #52796f;
+  /* --color-symbol-1: #ffa17a; */
+  --color-symbol-1: #fd8434;
+  /* --color-symbol-2: #cd8fff; */
+  --color-symbol-2: #ff14fb;
   --color-text-1: #cad2c5;
   --color-text-2: #141b1f;
   --color-button-1: #f1faee;
@@ -107,9 +110,9 @@ h1 {
 }
 
 .gameboard-overlay {
-  background-color: rgba(0, 0, 0, 0.805);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 1;
-  color: white;
+  color: var(--color-text-1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,8 +248,8 @@ h1 {
   width: 125px;
   height: 50px;
   border-radius: 5px;
-  border: 1px solid black;
-  border: none;
+  border: 1px solid var(--color-text-2);
+  /* border: none; */
 }
 
 .btn-new-game {
@@ -276,7 +279,7 @@ footer {
 }
 
 .github-link:hover {
-  color: rgb(131, 187, 255);
+  color: var(--color-symbol-1);
 }
 
 /* ############################################################
@@ -300,7 +303,8 @@ h2 {
 }
 
 .new-game-window {
-  background-color: var(--color-background-gameboard);
+  /* background-color: var(--color-background-gameboard); */
+  background-color: var(--color-background-modal);
   color: var(--color-text-2);
   border: 2px solid var(--color-text-2);
   display: flex;
