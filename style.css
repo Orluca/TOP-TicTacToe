@@ -10,12 +10,13 @@
   /* --color-background-players: #bfdfe7;
   --color-background-players: #f2efb3; */
   --color-background-players: #4e5055;
-  --color-background-modal: #bfdfe7;
+  --color-background-modal: #303231;
   --color-symbol-1: #f87060;
   --color-symbol-2: #8390fa;
   --color-text-1: #fdf0d5;
   --color-text-2: #111111;
   --color-button-startgame: #ff256e;
+  /* --color-button-startgame: #43dd79; */
   --color-button-newgame: #238e3f;
   --color-button-reset: #c62a46;
 }
@@ -315,8 +316,8 @@ h2 {
 .new-game-window {
   /* background-color: var(--color-background-gameboard); */
   background-color: var(--color-background-modal);
-  color: var(--color-text-2);
-  border: 5px solid var(--color-text-2);
+  color: var(--color-text-1);
+  border: 2px solid var(--color-text-1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -344,6 +345,7 @@ h2 {
   box-shadow: 2px 2px 2px var(--color-background-main);
   background-color: var(--color-button-startgame);
   color: var(--color-text-1);
+  /* color: var(--color-text-2); */
 }
 
 .name-inputs {
@@ -378,4 +380,9 @@ h2 {
 ############################################################ */
 .hidden {
   display: none;
+}
+
+.blurry {
+  filter: blur(8px);
+  -webkit-filter: blur(15px);
 }
