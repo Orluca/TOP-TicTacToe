@@ -216,7 +216,7 @@ footer {
 }
 
 .new-game-window {
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgb(54, 54, 54);
   color: white;
   display: flex;
   justify-content: center;
@@ -225,6 +225,7 @@ footer {
   row-gap: 1rem;
   padding: 3rem;
   border-radius: 20px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.805);
 }
 
 .btn-difficulty,
@@ -232,18 +233,32 @@ footer {
   font-size: 2rem;
   padding: 0rem 0.5rem;
   border-radius: 5px;
+  border: none;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.805);
 }
 
 .btn-start-game {
   font-size: 3rem;
   padding: 0.5rem 1rem;
   border-radius: 10px;
-  margin-top: 2rem;
+  border: none;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.805);
 }
 
 .name-inputs-container {
   display: flex;
   flex-direction: column;
+}
+
+.difficulty-selection,
+.opponent-selection {
+  display: flex;
+  column-gap: 0.5rem;
+}
+
+.new-game-window > hr {
+  width: 100%;
+  margin: 1rem 0;
 }
 
 /* ############################################################
