@@ -2,6 +2,22 @@
 ########################### GLOBALS ###########################
 ############################################################ */
 
+:root {
+  --color-background-header: #2f3e46;
+  --color-background-main: #354f52;
+  --color-background-footer: #2f3e46;
+  --color-background-gameboard: #cad2c5;
+  --color-background-players: #84a98c;
+  --color-symbol-1: #ffa17a;
+  --color-symbol-2: #cd8fff;
+  --color-text-1: #cad2c5;
+  --color-text-2: #141b1f;
+  --color-button-1: #f1faee;
+  --color-button-2: #f1faee;
+  --color-button-startgame: #0071c7;
+  --color-button-reset: #c62a46;
+}
+
 *,
 *::after,
 *::before {
@@ -21,6 +37,7 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: 2fr 15fr 1fr;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  color: var(--color-text-1);
 }
 
 /* ############################################################
@@ -33,6 +50,7 @@ main {
   grid-template-rows: 1fr 4fr 1fr;
   width: 100%;
   height: 100%;
+  background-color: var(--color-background-main);
 }
 
 .round-counter {
@@ -54,7 +72,7 @@ main {
 ############################ HEADER ###########################
 ############################################################ */
 header {
-  background-color: blueviolet;
+  background-color: var(--color-background-header);
   width: 100%;
   display: flex;
   justify-content: center;
@@ -85,6 +103,7 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   border: 2px solid black;
+  background-color: var(--color-background-gameboard);
 }
 
 .gameboard-overlay {
@@ -160,6 +179,9 @@ h1 {
   /* justify-content: center; */
   align-items: center;
   justify-items: center;
+  background-color: var(--color-background-players);
+  color: var(--color-text-2);
+  box-shadow: 3px 3px 3px var(--color-text-2);
 }
 
 .player-name {
@@ -180,7 +202,31 @@ h1 {
 
 .player-score-value {
   text-align: center;
-  font-size: 3rem;
+  font-size: 4rem;
+  text-shadow: 1px 1px 1px var(--color-background-main), 1px -1px 1px var(--color-background-main), -1px 1px 1px var(--color-background-main), -1px -1px 1px var(--color-background-main);
+}
+
+#score-value-player1 {
+  color: var(--color-symbol-1);
+}
+
+#score-value-player2 {
+  color: var(--color-symbol-2);
+}
+/* ############################################################
+########################### SYMBOLS ###########################
+############################################################ */
+.fa-o,
+.fa-x {
+  text-shadow: 1px 1px 1px var(--color-text-2), 1px -1px 1px var(--color-text-2), -1px 1px 1px var(--color-text-2), -1px -1px 1px var(--color-text-2);
+}
+
+.fa-o {
+  color: var(--color-symbol-2);
+}
+
+.fa-x {
+  color: var(--color-symbol-1);
 }
 
 /* ############################################################
@@ -200,12 +246,23 @@ h1 {
   height: 50px;
   border-radius: 5px;
   border: 1px solid black;
+  border: none;
+}
+
+.btn-new-game {
+  background-color: var(--color-button-startgame);
+  color: var(--color-text-1);
+}
+
+.btn-reset {
+  background-color: var(--color-button-reset);
+  color: var(--color-text-1);
 }
 /* ############################################################
 ############################ FOOTER ###########################
 ############################################################ */
 footer {
-  background-color: aquamarine;
+  background-color: var(--color-background-footer);
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -215,7 +272,7 @@ footer {
 .github-link {
   margin: 1rem;
   font-size: clamp(1.1rem, 1.5vw + 1vh, 1.5rem);
-  color: rgb(30, 30, 30);
+  color: var(--color-text-1);
 }
 
 .github-link:hover {
@@ -243,8 +300,9 @@ h2 {
 }
 
 .new-game-window {
-  background-color: rgb(54, 54, 54);
-  color: white;
+  background-color: var(--color-background-gameboard);
+  color: var(--color-text-2);
+  border: 2px solid var(--color-text-2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -258,10 +316,10 @@ h2 {
 .btn-difficulty,
 .btn-opponent {
   font-size: 1.5rem;
-  padding: 0rem 0.5rem;
+  padding: 0.25rem 1rem;
   border-radius: 5px;
   border: none;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.805);
+  box-shadow: 2px 2px 2px var(--color-background-main);
 }
 
 .btn-start-game {
@@ -269,7 +327,9 @@ h2 {
   padding: 0.5rem 1rem;
   border-radius: 10px;
   border: none;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.805);
+  box-shadow: 2px 2px 2px var(--color-background-main);
+  background-color: var(--color-button-startgame);
+  color: var(--color-text-1);
 }
 
 .name-inputs {
