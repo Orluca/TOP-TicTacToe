@@ -18,7 +18,8 @@ const Interface = (function () {
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
-    $btnNewGame.addEventListener("click", openNewGameWindow);
+    $btnNewGame.addEventListener("click", handleNewGamePresses);
+    $btnStartGame.addEventListener("click", handleStartGamePresses);
     $opponentSelectionSection.addEventListener("click", handleOpponentSelection);
     $difficultySelectionSection.addEventListener("click", handleDifficultySelection);
   }
@@ -31,6 +32,11 @@ const Interface = (function () {
       if (btn === $target) btn.classList.add("active-button-1");
       else btn.classList.remove("active-button-1");
     });
+  }
+
+  function handleNewGamePresses() {
+    resetNewGameWindow();
+    openNewGameWindow();
   }
 
   function showStartGameButton() {
@@ -54,6 +60,10 @@ const Interface = (function () {
         if (btn.classList.contains("active-button-1")) showStartGameButton();
       });
     }
+  }
+
+  function handleStartGamePresses() {
+    closeNewGameWindow();
   }
 
   function handleOpponentSelection(e) {
@@ -81,6 +91,15 @@ const Interface = (function () {
   function openNewGameWindow() {
     $newGameModal.classList.remove("hidden");
     $gameContainer.classList.add("blurry");
+  }
+
+  function resetNewGameWindow() {
+    $btnsDifficultySelections.forEach((btn) => btn.classList.remove("active-button-1"));
+    $btnsOpponentSelections.forEach((btn) => btn.classList.remove("active-button-1"));
+
+    $difficultySelectionSectionContainer.classList.add("hidden");
+    $nameInputsContainer.classList.add("hidden");
+    hideStartGameButton();
   }
 
   function init() {
