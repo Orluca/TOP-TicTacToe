@@ -8,10 +8,33 @@ const Interface = (function () {
   const $newGameModal = document.querySelector(".new-game-modal");
   const $playerContainers = document.querySelectorAll(".player-container");
   const $btnNewGame = document.querySelector(".btn-new-game");
+  const $opponentSelectionSection = document.querySelector(".opponent-selection");
+  const $difficultySelectionSection = document.querySelector(".difficulty-selection");
+  const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
     $btnNewGame.addEventListener("click", openNewGameWindow);
+    $opponentSelectionSection.addEventListener("click", handleOpponentSelection);
+    $difficultySelectionSection.addEventListener("click", handleDifficultySelection);
+  }
+
+  function toggleRadioButtons(e) {
+    const $buttons = e.target.closest(".radio-btns-container").querySelectorAll(".radio-btn");
+    const $target = e.target.closest(".radio-btn");
+
+    $buttons.forEach((btn) => {
+      if (btn === $target) btn.classList.add("active-button-1");
+      else btn.classList.remove("active-button-1");
+    });
+  }
+
+  function handleOpponentSelection(e) {
+    toggleRadioButtons(e);
+  }
+
+  function handleDifficultySelection(e) {
+    toggleRadioButtons(e);
   }
 
   function handleOutsideModalClicks(e) {
