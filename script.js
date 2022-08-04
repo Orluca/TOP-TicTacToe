@@ -47,18 +47,40 @@ const Interface = (function () {
     $btnStartGame.classList.add("hidden");
   }
 
+  function showDifficultySelection() {
+    $difficultySelectionSectionContainer.classList.remove("hidden");
+  }
+
+  function hideDifficultySelection() {
+    $difficultySelectionSectionContainer.classList.add("hidden");
+  }
+
+  function showNameInputs() {
+    $nameInputsContainer.classList.remove("hidden");
+  }
+
+  function hideNameInputs() {
+    $nameInputsContainer.classList.add("hidden");
+  }
+
+  function difficultyIsSelected() {
+    let state;
+    $btnsDifficultySelections.forEach((btn) => {
+      if (btn.classList.contains("active-button-1")) state = true;
+    });
+    return state;
+  }
+
   function revealRemainingOptions(e) {
     if (e.target.closest("#btn-opponent-human")) {
-      $difficultySelectionSectionContainer.classList.add("hidden");
-      $nameInputsContainer.classList.remove("hidden");
+      hideDifficultySelection();
+      showNameInputs();
       showStartGameButton();
     }
     if (e.target.closest("#btn-opponent-computer")) {
-      $difficultySelectionSectionContainer.classList.remove("hidden");
-      $nameInputsContainer.classList.add("hidden");
-      $btnsDifficultySelections.forEach((btn) => {
-        if (btn.classList.contains("active-button-1")) showStartGameButton();
-      });
+      showDifficultySelection();
+      hideNameInputs();
+      if (difficultyIsSelected()) showStartGameButton();
     }
   }
 
@@ -93,9 +115,13 @@ const Interface = (function () {
     $gameContainer.classList.add("blurry");
   }
 
-  function resetNewGameWindow() {
+  function removePressedButtonHighlights() {
     $btnsDifficultySelections.forEach((btn) => btn.classList.remove("active-button-1"));
     $btnsOpponentSelections.forEach((btn) => btn.classList.remove("active-button-1"));
+  }
+
+  function resetNewGameWindow() {
+    removePressedButtonHighlights();
 
     $difficultySelectionSectionContainer.classList.add("hidden");
     $nameInputsContainer.classList.add("hidden");
