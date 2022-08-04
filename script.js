@@ -6,11 +6,12 @@ const Player = function (name, symbol) {
 
 const Interface = (function () {
   const $newGameModal = document.querySelector(".new-game-modal");
-  const $playerContainers = document.querySelectorAll(".player-container");
+  // const $playerContainers = document.querySelectorAll(".player-container");
   const $btnNewGame = document.querySelector(".btn-new-game");
   const $opponentSelectionSection = document.querySelector(".opponent-selection");
   const $difficultySelectionSection = document.querySelector(".difficulty-selection");
   const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
+  const $gameContainer = document.querySelector(".game-container");
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
@@ -45,12 +46,14 @@ const Interface = (function () {
 
   function closeNewGameWindow() {
     $newGameModal.classList.add("hidden");
-    $playerContainers.forEach((el) => el.classList.remove("blurry"));
+    // $playerContainers.forEach((el) => el.classList.remove("blurry"));
+    $gameContainer.classList.remove("blurry");
   }
 
   function openNewGameWindow() {
     $newGameModal.classList.remove("hidden");
-    $playerContainers.forEach((el) => el.classList.add("blurry"));
+    // $playerContainers.forEach((el) => el.classList.add("blurry"));
+    $gameContainer.classList.add("blurry");
   }
 
   function init() {

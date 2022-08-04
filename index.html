@@ -14,59 +14,62 @@
       <h1>Tic Tac Toe</h1>
     </header>
     <main>
-      <div class="round-counter">Round 3</div>
-      <div class="gameboard">
-        <div class="cell" data-id="0"><i class="fa-solid fa-x"></i></div>
-        <div class="cell" data-id="1"></div>
-        <div class="cell" data-id="2"></div>
-        <div class="cell" data-id="3"><i class="fa-solid fa-o"></i></div>
-        <div class="cell" data-id="4"></div>
-        <div class="cell" data-id="5"></div>
-        <div class="cell" data-id="6"></div>
-        <div class="cell" data-id="7"></div>
-        <div class="cell" data-id="8"></div>
-      </div>
-      <div class="gameboard-overlay hidden">
-        <div class="result-message">It's a tie!</div>
-      </div>
-      <div class="side-container" id="left-side">
-        <div class="player-container blurry">
-          <div class="player-symbol"><i class="fa-solid fa-x"></i></div>
-          <div class="player-name">Human</div>
-          <div class="player-score-container">
-            <div class="player-score-label">Score:</div>
-            <div class="player-score-value" id="score-value-player1">3</div>
+      <div class="game-container blurry">
+        <div class="round-counter">Round 3</div>
+        <div class="gameboard">
+          <div class="cell" data-id="0"><i class="fa-solid fa-x"></i></div>
+          <div class="cell" data-id="1"></div>
+          <div class="cell" data-id="2"></div>
+          <div class="cell" data-id="3"><i class="fa-solid fa-o"></i></div>
+          <div class="cell" data-id="4"></div>
+          <div class="cell" data-id="5"></div>
+          <div class="cell" data-id="6"></div>
+          <div class="cell" data-id="7"></div>
+          <div class="cell" data-id="8"></div>
+        </div>
+        <div class="gameboard-overlay hidden">
+          <div class="result-message">It's a tie!</div>
+        </div>
+        <div class="side-container" id="left-side">
+          <div class="player-container">
+            <div class="player-symbol"><i class="fa-solid fa-x"></i></div>
+            <div class="player-name">Human</div>
+            <div class="player-score-container">
+              <div class="player-score-label">Score:</div>
+              <div class="player-score-value" id="score-value-player1">3</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="side-container" id="right-side">
-        <div class="player-container blurry">
-          <div class="player-symbol"><i class="fa-solid fa-o"></i></div>
-          <div class="player-name-container">
-            <div class="player-name">AI</div>
-            <div class="player-difficulty">Unbeatable</div>
-          </div>
-          <div class="player-score-container">
-            <div class="player-score-label">Score:</div>
-            <div class="player-score-value" id="score-value-player2">3</div>
+        <div class="side-container" id="right-side">
+          <div class="player-container">
+            <div class="player-symbol"><i class="fa-solid fa-o"></i></div>
+            <div class="player-name-container">
+              <div class="player-name">AI</div>
+              <div class="player-difficulty">Unbeatable</div>
+            </div>
+            <div class="player-score-container">
+              <div class="player-score-label">Score:</div>
+              <div class="player-score-value" id="score-value-player2">3</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="buttons">
-        <button class="btn-new-game">New Game</button>
-        <button class="btn-reset">Reset</button>
+        <div class="buttons">
+          <button class="btn-new-game">New Game</button>
+          <button class="btn-reset">Reset</button>
+        </div>
       </div>
       <div class="new-game-modal">
         <div class="new-game-window">
+          <hr />
           <div class="opponent-selection-container">
-            <h2>Who do you want to play against?</h2>
+            <h2><span class="text-highlight-1">Who</span> do you want to play against?</h2>
             <div class="opponent-selection radio-btns-container">
               <button class="radio-btn btn-opponent"><i class="fa-solid fa-user"></i> Human</button>
               <button class="radio-btn btn-opponent"><i class="fa-solid fa-robot"></i> Computer</button>
             </div>
           </div>
-          <div class="difficulty-selection-container">
-            <h2>How <span class="text-highlight-2">difficult</span> should the AI be?</h2>
+          <div class="difficulty-selection-container hidden">
+            <h2>How <span class="text-highlight-1">difficult</span> should the AI be?</h2>
             <div class="difficulty-selection radio-btns-container">
               <button class="radio-btn btn-difficulty" id="btn-easy-difficulty">Easy</button>
               <button class="radio-btn btn-difficulty" id="btn-medium-difficulty">Medium</button>
@@ -74,8 +77,8 @@
               <button class="radio-btn btn-difficulty" id="btn-unbeatable-difficulty">Unbeatable</button>
             </div>
           </div>
-          <div class="name-inputs-container">
-            <h2>Enter names <em>(optional)</em></h2>
+          <div class="name-inputs-container hidden">
+            <h2>Enter <span class="text-highlight-1">names</span> <em>(optional)</em></h2>
             <div class="name-inputs">
               <div class="name-input">
                 <label for="input-name-p1">Player 1</label>
@@ -88,7 +91,7 @@
             </div>
           </div>
           <hr />
-          <button class="btn-start-game">Start Game</button>
+          <button class="btn-start-game hidden">Start Game</button>
         </div>
       </div>
     </main>
