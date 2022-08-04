@@ -99,8 +99,12 @@ const Interface = (function () {
     showStartGameButton();
   }
 
+  // function newGameWindowIsVisible() {
+  //   return $newGameModal.classList.contains("hidden") ? false : true;
+  // }
+
   function handleOutsideModalClicks(e) {
-    if ($newGameModal.classList.contains("hidden")) return;
+    // if (!newGameWindowIsVisible()) return;
     if (e.target.closest(".new-game-window")) return;
     closeNewGameWindow();
   }
@@ -122,9 +126,8 @@ const Interface = (function () {
 
   function resetNewGameWindow() {
     removePressedButtonHighlights();
-
-    $difficultySelectionSectionContainer.classList.add("hidden");
-    $nameInputsContainer.classList.add("hidden");
+    hideDifficultySelection();
+    hideNameInputs();
     hideStartGameButton();
   }
 
