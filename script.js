@@ -6,11 +6,14 @@ const Player = function (name, symbol) {
 
 const Interface = (function () {
   const $newGameModal = document.querySelector(".new-game-modal");
-  // const $playerContainers = document.querySelectorAll(".player-container");
   const $btnNewGame = document.querySelector(".btn-new-game");
+  const $btnStartGame = document.querySelector(".btn-start-game");
   const $opponentSelectionSection = document.querySelector(".opponent-selection");
   const $difficultySelectionSection = document.querySelector(".difficulty-selection");
+  const $difficultySelectionSectionContainer = document.querySelector(".difficulty-selection-container");
+  const $nameInputsContainer = document.querySelector(".name-inputs-container");
   const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
+  const $btnsDifficultySelections = document.querySelectorAll(".btn-difficulty");
   const $gameContainer = document.querySelector(".game-container");
 
   function initListeners() {
@@ -30,12 +33,38 @@ const Interface = (function () {
     });
   }
 
+  function showStartGameButton() {
+    $btnStartGame.classList.remove("hidden");
+  }
+
+  function hideStartGameButton() {
+    $btnStartGame.classList.add("hidden");
+  }
+
+  function revealRemainingOptions(e) {
+    if (e.target.closest("#btn-opponent-human")) {
+      $difficultySelectionSectionContainer.classList.add("hidden");
+      $nameInputsContainer.classList.remove("hidden");
+      showStartGameButton();
+    }
+    if (e.target.closest("#btn-opponent-computer")) {
+      $difficultySelectionSectionContainer.classList.remove("hidden");
+      $nameInputsContainer.classList.add("hidden");
+      $btnsDifficultySelections.forEach((btn) => {
+        if (btn.classList.contains("active-button-1")) showStartGameButton();
+      });
+    }
+  }
+
   function handleOpponentSelection(e) {
+    hideStartGameButton();
     toggleRadioButtons(e);
+    revealRemainingOptions(e);
   }
 
   function handleDifficultySelection(e) {
     toggleRadioButtons(e);
+    showStartGameButton();
   }
 
   function handleOutsideModalClicks(e) {
@@ -46,13 +75,11 @@ const Interface = (function () {
 
   function closeNewGameWindow() {
     $newGameModal.classList.add("hidden");
-    // $playerContainers.forEach((el) => el.classList.remove("blurry"));
     $gameContainer.classList.remove("blurry");
   }
 
   function openNewGameWindow() {
     $newGameModal.classList.remove("hidden");
-    // $playerContainers.forEach((el) => el.classList.add("blurry"));
     $gameContainer.classList.add("blurry");
   }
 
