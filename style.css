@@ -185,8 +185,8 @@ h1 {
   color: var(--color-text-1);
   /* color: #eaeaea; */
   box-shadow: 3px 3px 3px var(--color-text-2);
-  /* background: rgb(86, 88, 94);
-  background: linear-gradient(180deg, rgba(86, 88, 94, 1) 0%, rgba(62, 63, 66, 1) 100%); */
+  background: rgb(86, 88, 94);
+  background: linear-gradient(135deg, rgb(73, 75, 79) 0%, rgba(62, 63, 66, 1) 100%);
 }
 
 .player-name {
@@ -332,7 +332,7 @@ h2 {
   padding: 0.25rem 1rem;
   border-radius: 5px;
   border: none;
-  box-shadow: 2px 2px 2px var(--color-background-main);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.501);
 }
 
 .btn-start-game {
@@ -344,7 +344,6 @@ h2 {
   box-shadow: 2px 2px 2px var(--color-background-main);
   background-color: var(--color-button-startgame);
   color: var(--color-text-1);
-  /* color: var(--color-text-2); */
 }
 
 .name-inputs {
@@ -384,4 +383,21 @@ h2 {
 .blurry {
   filter: blur(8px);
   -webkit-filter: blur(15px);
+}
+
+.active-button-1 {
+  background-color: rgb(108, 209, 108);
+  box-shadow: none;
+  /* transform: scale(0.98); */
+}
+
+.active-button-2 {
+  /* background-color: rgb(40, 119, 230); */
+  background-color: rgb(230, 214, 40);
+  box-shadow: none;
+  /* transform: scale(0.98); */
+}
+
+.text-highlight-2 {
+  color: rgb(255, 31, 132);
 }
