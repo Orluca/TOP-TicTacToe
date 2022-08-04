@@ -7,7 +7,7 @@
   --color-background-main: #30242c;
   --color-background-footer: #1e181c;
   --color-background-gameboard: #ffffff;
-  --color-background-players: #4e5055;
+  --color-background-players: #3d3f43;
   --color-background-modal: #2c2c2c;
   --color-symbol-1: #f87060;
   --color-symbol-2: #8390fa;
@@ -314,7 +314,7 @@ h2 {
   /* background-color: var(--color-background-gameboard); */
   background-color: var(--color-background-modal);
   color: var(--color-text-1);
-  border: 2px solid var(--color-text-1);
+  border: 1px solid var(--color-text-1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -339,6 +339,7 @@ h2 {
   padding: 0.5rem 1rem;
   border-radius: 10px;
   border: none;
+  border: 2px solid var(--color-text-2);
   box-shadow: 2px 2px 2px var(--color-background-main);
   background-color: var(--color-button-startgame);
   color: var(--color-text-1);
