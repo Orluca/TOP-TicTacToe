@@ -15,6 +15,8 @@ const Interface = (function () {
   const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
   const $btnsDifficultySelections = document.querySelectorAll(".btn-difficulty");
   const $gameContainer = document.querySelector(".game-container");
+  const $gameboard = document.querySelector(".gameboard");
+  const $cells = document.querySelectorAll(".cell");
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
@@ -22,7 +24,24 @@ const Interface = (function () {
     $btnStartGame.addEventListener("click", handleStartGamePresses);
     $opponentSelectionSection.addEventListener("click", handleOpponentSelection);
     $difficultySelectionSection.addEventListener("click", handleDifficultySelection);
+    $gameboard.addEventListener("click", handleGameboardClicks);
   }
+
+  function handleGameboardClicks(e) {
+    const idClickedCell = Number(e.target.dataset.id);
+
+    Game.setCell(idClickedCell);
+    updateGameboard();
+  }
+
+  function updateGameboard() {
+    const gameboard = Game.getGameboard();
+    $cells.forEach((cell, i) => (cell.innerHTML = gameboard[i]));
+  }
+
+  // function drawCross(el) {
+  //   el.innerHTML = `<i class="fa-solid fa-x"></i>`;
+  // }
 
   function toggleRadioButtons(e) {
     const $buttons = e.target.closest(".radio-btns-container").querySelectorAll(".radio-btn");
@@ -99,12 +118,7 @@ const Interface = (function () {
     showStartGameButton();
   }
 
-  // function newGameWindowIsVisible() {
-  //   return $newGameModal.classList.contains("hidden") ? false : true;
-  // }
-
   function handleOutsideModalClicks(e) {
-    // if (!newGameWindowIsVisible()) return;
     if (e.target.closest(".new-game-window")) return;
     closeNewGameWindow();
   }
@@ -139,11 +153,32 @@ const Interface = (function () {
 })();
 
 const Game = (function () {
-  function init() {
-    Interface.init();
+  const playerUser = Player("User", "X");
+  const playerComputer = Player("CPU", "O");
+  let gameboard;
+  let activePlayer;
+
+  function setCell(id) {
+    const symbol = activePlayer.symbol === "X" ? `<i class="fa-solid fa-x"></i>` : `<i class="fa-solid fa-o"></i>`;
+    gameboard[id] = symbol;
   }
 
-  return { init };
+  function getGameboard() {
+    return gameboard;
+  }
+
+  function initValues() {
+    gameboard = new Array(9).fill("");
+    // activePlayer = playerUser;
+    activePlayer = playerComputer;
+  }
+
+  function init() {
+    Interface.init();
+    initValues();
+  }
+
+  return { init, setCell, getGameboard };
 })();
 
 const AI = (function () {})();
