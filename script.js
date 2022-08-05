@@ -39,10 +39,6 @@ const Interface = (function () {
     $cells.forEach((cell, i) => (cell.innerHTML = gameboard[i]));
   }
 
-  // function drawCross(el) {
-  //   el.innerHTML = `<i class="fa-solid fa-x"></i>`;
-  // }
-
   function toggleRadioButtons(e) {
     const $buttons = e.target.closest(".radio-btns-container").querySelectorAll(".radio-btn");
     const $target = e.target.closest(".radio-btn");
@@ -184,5 +180,3 @@ const Game = (function () {
 const AI = (function () {})();
 
 Game.init();
-
-// TEST COMMENT
