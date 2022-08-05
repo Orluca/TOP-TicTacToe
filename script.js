@@ -169,8 +169,8 @@ const Game = (function () {
 
   function initValues() {
     gameboard = new Array(9).fill("");
-    // activePlayer = playerUser;
-    activePlayer = playerComputer;
+    activePlayer = playerUser;
+    // activePlayer = playerComputer;
   }
 
   function init() {
@@ -184,3 +184,5 @@ const Game = (function () {
 const AI = (function () {})();
 
 Game.init();
+
+// TEST COMMENT
