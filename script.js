@@ -16,6 +16,8 @@ const Interface = (function () {
   const $btnsDifficultySelections = document.querySelectorAll(".btn-difficulty");
   const $gameContainer = document.querySelector(".game-container");
   const $gameboard = document.querySelector(".gameboard");
+  const $resultOverlay = document.querySelector(".result-overlay");
+  const $resultMessage = document.querySelector(".result-message");
   const $cells = document.querySelectorAll(".cell");
 
   function initListeners() {
@@ -159,11 +161,30 @@ const Interface = (function () {
     hideStartGameButton();
   }
 
+  function setResultMessage() {
+    const result = Game.getResult();
+    if (result === "draw") $resultMessage.textContent = "It's a TIE!";
+    else $resultMessage.textContent = `${result} wins the game!`;
+  }
+
+  function showResultMessage() {
+    setResultMessage();
+    $resultOverlay.classList.remove("hidden");
+  }
+
+  function hideResultMessage() {
+    $resultOverlay.classList.add("hidden");
+  }
+
+  function endGame() {
+    showResultMessage();
+  }
+
   function init() {
     initListeners();
   }
 
-  return { init, updateGameboard };
+  return { init, updateGameboard, endGame };
 })();
 
 const Game = (function () {
@@ -201,6 +222,10 @@ const Game = (function () {
   function setDifficulty(diff) {
     difficulty = diff;
     console.log(difficulty);
+  }
+
+  function getResult() {
+    return result;
   }
 
   function startGame() {
@@ -247,11 +272,15 @@ const Game = (function () {
       setCell(idClickedCell);
       Interface.updateGameboard();
       if (gameIsOver()) {
-        console.log(result);
+        endGame();
         return;
       }
       switchActivePlayer();
     }
+  }
+
+  function endGame() {
+    Interface.endGame();
   }
 
   function initValues() {
@@ -265,7 +294,7 @@ const Game = (function () {
     initValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult };
 })();
 
 const AI = (function () {
