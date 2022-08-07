@@ -7,13 +7,14 @@ const Player = function (name, symbol) {
 const Interface = (function () {
   const $newGameModal = document.querySelector(".new-game-modal");
   const $btnNewGame = document.querySelector(".btn-new-game");
+  const $btnNextRound = document.querySelector(".btn-next-round");
   const $btnStartGame = document.querySelector(".btn-start-game");
+  const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
+  const $btnsDifficultySelections = document.querySelectorAll(".btn-difficulty");
   const $opponentSelectionSection = document.querySelector(".opponent-selection");
   const $difficultySelectionSection = document.querySelector(".difficulty-selection");
   const $difficultySelectionSectionContainer = document.querySelector(".difficulty-selection-container");
   const $nameInputsContainer = document.querySelector(".name-inputs-container");
-  const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
-  const $btnsDifficultySelections = document.querySelectorAll(".btn-difficulty");
   const $gameContainer = document.querySelector(".game-container");
   const $gameboard = document.querySelector(".gameboard");
   const $resultOverlay = document.querySelector(".result-overlay");
@@ -24,6 +25,7 @@ const Interface = (function () {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
     $btnNewGame.addEventListener("click", handleNewGamePresses);
     $btnStartGame.addEventListener("click", handleStartGamePresses);
+    $btnNextRound.addEventListener("click", handleNextRoundPresses);
     $opponentSelectionSection.addEventListener("click", handleOpponentSelection);
     $difficultySelectionSection.addEventListener("click", handleDifficultySelection);
     $gameboard.addEventListener("click", handleGameboardClicks);
@@ -42,6 +44,12 @@ const Interface = (function () {
     // ai move (easy, medium, hard or unbeatable). get cell id, update gameboard array
     // updateGameboard()
     // switch active player
+  }
+
+  function handleNextRoundPresses() {
+    hideResultMessage();
+    Game.resetValues();
+    updateGameboard();
   }
 
   function updateGameboard() {
@@ -283,18 +291,17 @@ const Game = (function () {
     Interface.endGame();
   }
 
-  function initValues() {
+  function resetValues() {
     gameboard = new Array(9).fill("");
     activePlayer = playerUser;
-    // activePlayer = playerComputer;
   }
 
   function init() {
     Interface.init();
-    initValues();
+    resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues };
 })();
 
 const AI = (function () {
