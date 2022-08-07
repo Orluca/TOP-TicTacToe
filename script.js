@@ -20,6 +20,8 @@ const Interface = (function () {
   const $resultOverlay = document.querySelector(".result-overlay");
   const $resultMessage = document.querySelector(".result-message");
   const $cells = document.querySelectorAll(".cell");
+  const $scoreP1 = document.querySelector("#score-value-player1");
+  const $scoreP2 = document.querySelector("#score-value-player2");
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
@@ -35,16 +37,8 @@ const Interface = (function () {
     const idClickedCell = Number(e.target.dataset.id);
 
     if (!Game.checkIfCellIsEmpty(idClickedCell)) return;
-    // Opponent is other human
-    Game.playRound(idClickedCell);
 
-    // Opponent is AI
-    // Game.setCell(idClickedCell);
-    // updateGameboard();
-    // switch active player
-    // ai move (easy, medium, hard or unbeatable). get cell id, update gameboard array
-    // updateGameboard()
-    // switch active player
+    Game.playRound(idClickedCell);
   }
 
   function handleNextRoundPresses() {
@@ -185,8 +179,15 @@ const Interface = (function () {
     $resultOverlay.classList.add("hidden");
   }
 
+  function updateScores() {
+    const scores = Game.getScores();
+    $scoreP1.textContent = scores[0];
+    $scoreP2.textContent = scores[1];
+  }
+
   function endGame() {
     showResultMessage();
+    updateScores();
   }
 
   function init() {
@@ -204,6 +205,10 @@ const Game = (function () {
   let opponent;
   let difficulty;
   let result;
+
+  function getScores() {
+    return [playerUser.score, playerComputer.score];
+  }
 
   function setCell(id) {
     gameboard[id] = activePlayer.symbol;
@@ -300,9 +305,6 @@ const Game = (function () {
 
   function increaseScore() {
     activePlayer.score += 1;
-    console.log(activePlayer);
-    console.log(playerUser);
-    console.log(playerComputer);
   }
 
   function resetValues() {
@@ -315,7 +317,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores };
 })();
 
 const AI = (function () {
