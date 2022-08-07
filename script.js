@@ -166,6 +166,7 @@ const Game = (function () {
   let activePlayer;
   let opponent;
   let difficulty;
+  let result;
 
   function setCell(id) {
     const symbol = activePlayer.symbol === "X" ? `<i class="fa-solid fa-x"></i>` : `<i class="fa-solid fa-o"></i>`;
@@ -202,10 +203,48 @@ const Game = (function () {
     // reset certain values (gameboard, active player)
   }
 
+  function checkForDraw() {
+    if (gameboard.includes("")) return false;
+    result = "draw";
+    return true;
+  }
+
+  function checkForWinner() {
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    if (winningCombos.some((cmb) => cmb.every((i) => gameboard[i] === activePlayer.symbol))) {
+      console.log("winnercheck");
+      result = activePlayer.name;
+      return true;
+    }
+  }
+
+  function gameIsOver() {
+    if (checkForWinner()) {
+      return true;
+    }
+    if (checkForDraw()) {
+      return true;
+    }
+  }
+
   function playRound(idClickedCell) {
     if (opponent === "human") {
       setCell(idClickedCell);
       Interface.updateGameboard();
+      if (gameIsOver()) {
+        console.log(result);
+        return;
+      }
       switchActivePlayer();
     }
   }
