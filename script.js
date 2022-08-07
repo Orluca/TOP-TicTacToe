@@ -30,8 +30,16 @@ const Interface = (function () {
   function handleGameboardClicks(e) {
     const idClickedCell = Number(e.target.dataset.id);
 
-    Game.setCell(idClickedCell);
-    updateGameboard();
+    // Opponent is other human
+    Game.playRound(idClickedCell);
+
+    // Opponent is AI
+    // Game.setCell(idClickedCell);
+    // updateGameboard();
+    // switch active player
+    // ai move (easy, medium, hard or unbeatable). get cell id, update gameboard array
+    // updateGameboard()
+    // switch active player
   }
 
   function updateGameboard() {
@@ -101,6 +109,7 @@ const Interface = (function () {
 
   function handleStartGamePresses() {
     closeNewGameWindow();
+    Game.startGame();
   }
 
   function handleOpponentSelection(e) {
@@ -147,7 +156,7 @@ const Interface = (function () {
     initListeners();
   }
 
-  return { init };
+  return { init, updateGameboard };
 })();
 
 const Game = (function () {
@@ -167,6 +176,17 @@ const Game = (function () {
     return gameboard;
   }
 
+  function getEmptyCells() {
+    return gameboard.reduce((acc, cell, i) => {
+      if (cell === "") acc.push(i);
+      return acc;
+    }, []);
+  }
+
+  function switchActivePlayer() {
+    activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
+  }
+
   function setOpponent(opp) {
     opponent = opp;
   }
@@ -176,7 +196,19 @@ const Game = (function () {
     console.log(difficulty);
   }
 
-  function startGame(opponent, difficulty) {}
+  function startGame() {
+    console.log("starting game...");
+    // reset ui elements
+    // reset certain values (gameboard, active player)
+  }
+
+  function playRound(idClickedCell) {
+    if (opponent === "human") {
+      setCell(idClickedCell);
+      Interface.updateGameboard();
+      switchActivePlayer();
+    }
+  }
 
   function initValues() {
     gameboard = new Array(9).fill("");
@@ -189,9 +221,15 @@ const Game = (function () {
     initValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound };
 })();
 
-const AI = (function () {})();
+const AI = (function () {
+  function makeMoveEasy() {
+    console.log(Game.getEmptyCells());
+  }
+
+  return { makeMoveEasy };
+})();
 
 Game.init();
