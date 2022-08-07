@@ -44,7 +44,14 @@ const Interface = (function () {
 
   function updateGameboard() {
     const gameboard = Game.getGameboard();
-    $cells.forEach((cell, i) => (cell.innerHTML = gameboard[i]));
+    $cells.forEach((cell, i) => {
+      let symbol;
+      if (gameboard[i] === "X") symbol = `<i class="fa-solid fa-x"></i>`;
+      else if (gameboard[i] === "O") symbol = `<i class="fa-solid fa-o"></i>`;
+      else symbol = "";
+
+      cell.innerHTML = symbol;
+    });
   }
 
   function toggleRadioButtons(e) {
@@ -169,8 +176,7 @@ const Game = (function () {
   let result;
 
   function setCell(id) {
-    const symbol = activePlayer.symbol === "X" ? `<i class="fa-solid fa-x"></i>` : `<i class="fa-solid fa-o"></i>`;
-    gameboard[id] = symbol;
+    gameboard[id] = activePlayer.symbol;
   }
 
   function getGameboard() {
@@ -222,7 +228,6 @@ const Game = (function () {
     ];
 
     if (winningCombos.some((cmb) => cmb.every((i) => gameboard[i] === activePlayer.symbol))) {
-      console.log("winnercheck");
       result = activePlayer.name;
       return true;
     }
