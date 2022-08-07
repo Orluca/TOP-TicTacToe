@@ -1,7 +1,7 @@
 "use strict";
 
-const Player = function (name, symbol) {
-  return { name, symbol };
+const Player = function (name, symbol, score) {
+  return { name, symbol, score };
 };
 
 const Interface = (function () {
@@ -34,6 +34,7 @@ const Interface = (function () {
   function handleGameboardClicks(e) {
     const idClickedCell = Number(e.target.dataset.id);
 
+    if (!Game.checkIfCellIsEmpty(idClickedCell)) return;
     // Opponent is other human
     Game.playRound(idClickedCell);
 
@@ -196,8 +197,8 @@ const Interface = (function () {
 })();
 
 const Game = (function () {
-  const playerUser = Player("User", "X");
-  const playerComputer = Player("CPU", "O");
+  const playerUser = Player("User", "X", 0);
+  const playerComputer = Player("CPU", "O", 0);
   let gameboard;
   let activePlayer;
   let opponent;
@@ -210,6 +211,11 @@ const Game = (function () {
 
   function getGameboard() {
     return gameboard;
+  }
+
+  function checkIfCellIsEmpty(id) {
+    return gameboard[id] === "" ? true : false;
+    // return gameboard[id] ? false : true;
   }
 
   function getEmptyCells() {
@@ -268,6 +274,7 @@ const Game = (function () {
 
   function gameIsOver() {
     if (checkForWinner()) {
+      increaseScore();
       return true;
     }
     if (checkForDraw()) {
@@ -291,6 +298,13 @@ const Game = (function () {
     Interface.endGame();
   }
 
+  function increaseScore() {
+    activePlayer.score += 1;
+    console.log(activePlayer);
+    console.log(playerUser);
+    console.log(playerComputer);
+  }
+
   function resetValues() {
     gameboard = new Array(9).fill("");
     activePlayer = playerUser;
@@ -301,7 +315,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty };
 })();
 
 const AI = (function () {
