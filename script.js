@@ -107,11 +107,13 @@ const Interface = (function () {
     hideStartGameButton();
     toggleRadioButtons(e);
     revealRemainingOptions(e);
+    Game.setOpponent(e.target.dataset.opponent);
   }
 
   function handleDifficultySelection(e) {
     toggleRadioButtons(e);
     showStartGameButton();
+    Game.setDifficulty(e.target.dataset.difficulty);
   }
 
   function handleOutsideModalClicks(e) {
@@ -153,6 +155,8 @@ const Game = (function () {
   const playerComputer = Player("CPU", "O");
   let gameboard;
   let activePlayer;
+  let opponent;
+  let difficulty;
 
   function setCell(id) {
     const symbol = activePlayer.symbol === "X" ? `<i class="fa-solid fa-x"></i>` : `<i class="fa-solid fa-o"></i>`;
@@ -162,6 +166,17 @@ const Game = (function () {
   function getGameboard() {
     return gameboard;
   }
+
+  function setOpponent(opp) {
+    opponent = opp;
+  }
+
+  function setDifficulty(diff) {
+    difficulty = diff;
+    console.log(difficulty);
+  }
+
+  function startGame(opponent, difficulty) {}
 
   function initValues() {
     gameboard = new Array(9).fill("");
@@ -174,7 +189,7 @@ const Game = (function () {
     initValues();
   }
 
-  return { init, setCell, getGameboard };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty };
 })();
 
 const AI = (function () {})();
