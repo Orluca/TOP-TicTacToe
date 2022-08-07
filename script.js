@@ -129,9 +129,17 @@ const Interface = (function () {
     }
   }
 
+  function resetGameboard() {
+    hideResultMessage();
+    updateScores();
+    updateGameboard();
+  }
+
   function handleStartGamePresses() {
+    Game.resetScores();
+    Game.resetValues();
+    resetGameboard();
     closeNewGameWindow();
-    Game.startGame();
   }
 
   function handleOpponentSelection(e) {
