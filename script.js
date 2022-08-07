@@ -9,6 +9,7 @@ const Interface = (function () {
   const $btnNewGame = document.querySelector(".btn-new-game");
   const $btnNextRound = document.querySelector(".btn-next-round");
   const $btnStartGame = document.querySelector(".btn-start-game");
+  const $btnReset = document.querySelector(".btn-reset");
   const $btnsOpponentSelections = document.querySelectorAll(".btn-opponent");
   const $btnsDifficultySelections = document.querySelectorAll(".btn-difficulty");
   const $opponentSelectionSection = document.querySelector(".opponent-selection");
@@ -28,6 +29,7 @@ const Interface = (function () {
     $btnNewGame.addEventListener("click", handleNewGamePresses);
     $btnStartGame.addEventListener("click", handleStartGamePresses);
     $btnNextRound.addEventListener("click", handleNextRoundPresses);
+    $btnReset.addEventListener("click", handleResetPresses);
     $opponentSelectionSection.addEventListener("click", handleOpponentSelection);
     $difficultySelectionSection.addEventListener("click", handleDifficultySelection);
     $gameboard.addEventListener("click", handleGameboardClicks);
@@ -45,6 +47,14 @@ const Interface = (function () {
     hideResultMessage();
     Game.resetValues();
     updateGameboard();
+  }
+
+  function handleResetPresses() {
+    Game.resetValues();
+    Game.resetScores();
+    hideResultMessage();
+    updateGameboard();
+    updateScores();
   }
 
   function updateGameboard() {
@@ -307,6 +317,11 @@ const Game = (function () {
     activePlayer.score += 1;
   }
 
+  function resetScores() {
+    playerUser.score = 0;
+    playerComputer.score = 0;
+  }
+
   function resetValues() {
     gameboard = new Array(9).fill("");
     activePlayer = playerUser;
@@ -317,7 +332,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores };
 })();
 
 const AI = (function () {
