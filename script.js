@@ -23,7 +23,6 @@ const Interface = (function () {
   const $cells = document.querySelectorAll(".cell");
   const $scoreP1 = document.querySelector("#score-value-player1");
   const $scoreP2 = document.querySelector("#score-value-player2");
-  // const $nameInputsContainer = document.querySelector(".name-inputs");
   const $nameInputP1 = document.querySelector("#input-name-p1");
   const $nameInputP2 = document.querySelector("#input-name-p2");
   const $nameDisplayP1 = document.querySelector("#name-display-p1");
