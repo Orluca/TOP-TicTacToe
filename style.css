@@ -449,3 +449,11 @@ h2 {
 .text-highlight-1 {
   color: rgb(255, 31, 132);
 }
+
+.player1-color {
+  color: var(--color-symbol-1);
+}
+
+.player2-color {
+  color: var(--color-symbol-2);
+}

@@ -217,8 +217,9 @@ const Interface = (function () {
 
   function setResultMessage() {
     const result = Game.getResult();
+    const player = Game.getPlayerNumber(result); // To assign color to player name
     if (result === "draw") $resultMessage.textContent = "It's a TIE!";
-    else $resultMessage.textContent = `${result} wins the game!`;
+    else $resultMessage.innerHTML = `<span class="${player}-color">${result}</span> wins the game!`;
   }
 
   function showResultMessage() {
@@ -256,6 +257,11 @@ const Game = (function () {
   let opponent;
   let difficulty;
   let result;
+
+  function getPlayerNumber(playerName) {
+    if (playerName === player1.name) return "player1";
+    else if (playerName === player2.name) return "player2";
+  }
 
   function updateNames(name1, name2) {
     player1.name = name1;
@@ -382,7 +388,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber };
 })();
 
 const AI = (function () {
