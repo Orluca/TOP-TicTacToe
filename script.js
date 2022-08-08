@@ -23,6 +23,11 @@ const Interface = (function () {
   const $cells = document.querySelectorAll(".cell");
   const $scoreP1 = document.querySelector("#score-value-player1");
   const $scoreP2 = document.querySelector("#score-value-player2");
+  const $nameInputP1 = document.querySelector("#input-name-p1");
+  const $nameInputP2 = document.querySelector("#input-name-p2");
+  const $nameDisplayP1 = document.querySelector("#name-display-p1");
+  const $nameDisplayP2 = document.querySelector("#name-display-p2");
+  const $nameDisplayP2Difficulty = document.querySelector("#name-display-p2-difficulty");
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
@@ -138,8 +143,30 @@ const Interface = (function () {
   function handleStartGamePresses() {
     Game.resetScores();
     Game.resetValues();
+    checkNameInputs();
     resetGameboard();
     closeNewGameWindow();
+  }
+
+  function checkNameInputs() {
+    const nameP1 = $nameInputP1.value ? $nameInputP1.value : "Player 1";
+    const nameP2 = $nameInputP2.value ? $nameInputP2.value : "Player 2";
+
+    Game.updateNames(nameP1, nameP2);
+    setNameDisplays();
+    resetNameInputs();
+  }
+
+  function setNameDisplays(difficulty) {
+    const [name1, name2] = Game.getNames();
+    $nameDisplayP1.textContent = name1;
+    $nameDisplayP2.textContent = name2;
+    $nameDisplayP2Difficulty.textContent = difficulty ? difficulty : "";
+  }
+
+  function resetNameInputs() {
+    $nameInputP1.value = "";
+    $nameInputP2.value = "";
   }
 
   function handleOpponentSelection(e) {
@@ -216,16 +243,25 @@ const Interface = (function () {
 })();
 
 const Game = (function () {
-  const playerUser = Player("User", "X", 0);
-  const playerComputer = Player("CPU", "O", 0);
+  const player1 = Player("User", "X", 0);
+  const player2 = Player("CPU", "O", 0);
   let gameboard;
   let activePlayer;
   let opponent;
   let difficulty;
   let result;
 
+  function updateNames(name1, name2) {
+    player1.name = name1;
+    player2.name = name2;
+  }
+
+  function getNames() {
+    return [player1.name, player2.name];
+  }
+
   function getScores() {
-    return [playerUser.score, playerComputer.score];
+    return [player1.score, player2.score];
   }
 
   function setCell(id) {
@@ -249,7 +285,7 @@ const Game = (function () {
   }
 
   function switchActivePlayer() {
-    activePlayer = activePlayer === playerUser ? playerComputer : playerUser;
+    activePlayer = activePlayer === player1 ? player2 : player1;
   }
 
   function setOpponent(opp) {
@@ -326,13 +362,13 @@ const Game = (function () {
   }
 
   function resetScores() {
-    playerUser.score = 0;
-    playerComputer.score = 0;
+    player1.score = 0;
+    player2.score = 0;
   }
 
   function resetValues() {
     gameboard = new Array(9).fill("");
-    activePlayer = playerUser;
+    activePlayer = player1;
   }
 
   function init() {
@@ -340,7 +376,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames };
 })();
 
 const AI = (function () {
