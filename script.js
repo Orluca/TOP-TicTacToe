@@ -306,7 +306,6 @@ const Game = (function () {
 
   function setDifficulty(diff) {
     difficulty = diff;
-    console.log(difficulty);
   }
 
   function getResult() {
@@ -363,6 +362,22 @@ const Game = (function () {
       }
       switchActivePlayer();
     }
+    if (opponent === "computer") {
+      setCell(idClickedCell);
+      Interface.updateGameboard();
+      if (gameIsOver()) {
+        endGame();
+        return;
+      }
+      switchActivePlayer();
+      setCell(AI.makeMove(difficulty));
+      Interface.updateGameboard();
+      if (gameIsOver()) {
+        endGame();
+        return;
+      }
+      switchActivePlayer();
+    }
   }
 
   function endGame() {
@@ -392,11 +407,16 @@ const Game = (function () {
 })();
 
 const AI = (function () {
-  function makeMoveEasy() {
-    console.log(Game.getEmptyCells());
+  function easyMove() {
+    const emptyCells = Game.getEmptyCells();
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
   }
 
-  return { makeMoveEasy };
+  function makeMove(difficulty) {
+    if (difficulty === "easy") return easyMove();
+  }
+
+  return { makeMove };
 })();
 
 Game.init();
