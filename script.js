@@ -407,17 +407,52 @@ const Game = (function () {
 })();
 
 const AI = (function () {
-  let threesObserver = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
+  let winTracker;
 
-  function updateObserver() {
+  function resetWinTracker() {
+    winTracker = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
+  }
+
+  function updateWinTracker() {
     const gameboard = Game.getGameboard();
-    gameboard.forEach((symbol, i) => {
-      if (i === 0) {
-        if (symbol === "X") {
-          threesObserver.row1 += 1;
-          threesObserver.col1 += 1;
-          threesObserver.diag1 += 1;
-        }
+    resetWinTracker();
+
+    gameboard.forEach((symbol, id) => {
+      if (symbol === "") return;
+      const add = symbol === "X" ? 1 : -1;
+      if (id === 0) {
+        winTracker.row1 += add;
+        winTracker.col1 += add;
+        winTracker.diag1 += add;
+      } else if (id === 1) {
+        winTracker.row1 += add;
+        winTracker.col2 += add;
+      } else if (id === 2) {
+        winTracker.row1 += add;
+        winTracker.col3 += add;
+        winTracker.diag2 += add;
+      } else if (id === 3) {
+        winTracker.row2 += add;
+        winTracker.col1 += add;
+      } else if (id === 4) {
+        winTracker.row2 += add;
+        winTracker.col2 += add;
+        winTracker.diag1 += add;
+        winTracker.diag2 += add;
+      } else if (id === 5) {
+        winTracker.row2 += add;
+        winTracker.col3 += add;
+      } else if (id === 6) {
+        winTracker.row3 += add;
+        winTracker.col1 += add;
+        winTracker.diag2 += add;
+      } else if (id === 7) {
+        winTracker.row3 += add;
+        winTracker.col2 += add;
+      } else if (id === 8) {
+        winTracker.row3 += add;
+        winTracker.col3 += add;
+        winTracker.diag1 += add;
       }
     });
   }
@@ -427,6 +462,7 @@ const AI = (function () {
   function detectOwn3s() {}
 
   function easyMove() {
+    updateWinTracker();
     const emptyCells = Game.getEmptyCells();
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
   }
