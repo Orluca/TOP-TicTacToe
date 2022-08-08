@@ -457,19 +457,52 @@ const AI = (function () {
     });
   }
 
+  function getWinTrackerPositions(pos) {
+    if (pos === "row1") return [0, 1, 2];
+    if (pos === "row2") return [3, 4, 5];
+    if (pos === "row3") return [6, 7, 8];
+    if (pos === "col1") return [0, 3, 6];
+    if (pos === "col2") return [1, 4, 7];
+    if (pos === "col3") return [2, 5, 8];
+    if (pos === "diag1") return [0, 4, 8];
+    if (pos === "diag2") return [2, 4, 6];
+  }
+
   function detectOpponent3s() {}
 
-  function detectOwn3s() {}
+  function detectOwn3s() {
+    let id;
 
-  function easyMove() {
-    updateWinTracker();
+    for (const prop in winTracker) {
+      if (winTracker[prop] === -2) {
+        const positions = getWinTrackerPositions(prop);
+        const gameboard = Game.getGameboard();
+        positions.forEach((pos) => {
+          if (gameboard[pos] === "") id = pos;
+        });
+      }
+    }
+
+    return id;
+  }
+
+  function randomPosition() {
     const emptyCells = Game.getEmptyCells();
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
   }
 
-  function mediumMove() {}
+  function easyMove() {
+    return randomPosition();
+  }
+
+  function mediumMove() {
+    const winMove = detectOwn3s();
+    if (winMove) return winMove;
+    return randomPosition();
+  }
 
   function makeMove(difficulty) {
+    updateWinTracker();
     if (difficulty === "easy") return easyMove();
     if (difficulty === "medium") return mediumMove();
   }
