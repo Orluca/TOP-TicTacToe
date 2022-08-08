@@ -468,9 +468,23 @@ const AI = (function () {
     if (pos === "diag2") return [2, 4, 6];
   }
 
-  function detectOpponent3s() {}
+  function detectOpponentWin() {
+    let id;
 
-  function detectOwn3s() {
+    for (const prop in winTracker) {
+      if (winTracker[prop] === 2) {
+        const positions = getWinTrackerPositions(prop);
+        const gameboard = Game.getGameboard();
+        positions.forEach((pos) => {
+          if (gameboard[pos] === "") id = pos;
+        });
+      }
+    }
+
+    return id;
+  }
+
+  function detectOwnWin() {
     let id;
 
     for (const prop in winTracker) {
@@ -496,15 +510,24 @@ const AI = (function () {
   }
 
   function mediumMove() {
-    const winMove = detectOwn3s();
+    const winMove = detectOwnWin();
     if (winMove) return winMove;
-    return randomPosition();
+    else return randomPosition();
+  }
+
+  function hardMove() {
+    const winMove = detectOwnWin();
+    const opponentWinMove = detectOpponentWin();
+    if (winMove) return winMove;
+    else if (opponentWinMove) return opponentWinMove;
+    else return randomPosition();
   }
 
   function makeMove(difficulty) {
     updateWinTracker();
     if (difficulty === "easy") return easyMove();
     if (difficulty === "medium") return mediumMove();
+    if (difficulty === "hard") return hardMove();
   }
 
   return { makeMove };
