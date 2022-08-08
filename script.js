@@ -407,13 +407,35 @@ const Game = (function () {
 })();
 
 const AI = (function () {
+  let threesObserver = { row1: 0, row2: 0, row3: 0, col1: 0, col2: 0, col3: 0, diag1: 0, diag2: 0 };
+
+  function updateObserver() {
+    const gameboard = Game.getGameboard();
+    gameboard.forEach((symbol, i) => {
+      if (i === 0) {
+        if (symbol === "X") {
+          threesObserver.row1 += 1;
+          threesObserver.col1 += 1;
+          threesObserver.diag1 += 1;
+        }
+      }
+    });
+  }
+
+  function detectOpponent3s() {}
+
+  function detectOwn3s() {}
+
   function easyMove() {
     const emptyCells = Game.getEmptyCells();
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
   }
 
+  function mediumMove() {}
+
   function makeMove(difficulty) {
     if (difficulty === "easy") return easyMove();
+    if (difficulty === "medium") return mediumMove();
   }
 
   return { makeMove };
