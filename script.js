@@ -189,7 +189,8 @@ const Interface = (function () {
     hideStartGameButton();
     toggleRadioButtons(e);
     revealRemainingOptions(e);
-    Game.setOpponent(e.target.dataset.opponent);
+
+    Game.setOpponent(e.target.closest(".btn-opponent").dataset.opponent);
   }
 
   function handleDifficultySelection(e) {
