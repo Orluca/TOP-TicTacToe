@@ -1,7 +1,7 @@
 "use strict";
 
-const Player = function (name, symbol, score) {
-  return { name, symbol, score };
+const Player = function (name, symbol, score, id) {
+  return { name, symbol, score, id };
 };
 
 const Interface = (function () {
@@ -217,9 +217,10 @@ const Interface = (function () {
 
   function setResultMessage() {
     const result = Game.getResult();
-    const player = Game.getPlayerNumber(result); // To assign color to player name
+    const winnerName = Game.getNameWithID(result);
+    const colorID = result === "Player 1" ? "player1" : "player2";
     if (result === "draw") $resultMessage.textContent = "It's a TIE!";
-    else $resultMessage.innerHTML = `<span class="${player}-color">${result}</span> wins the game!`;
+    else $resultMessage.innerHTML = `<span class="${colorID}-color">${winnerName}</span> wins the game!`;
   }
 
   function showResultMessage() {
@@ -250,8 +251,8 @@ const Interface = (function () {
 })();
 
 const Game = (function () {
-  const player1 = Player("User", "X", 0);
-  const player2 = Player("CPU", "O", 0);
+  const player1 = Player("User", "X", 0, "Player 1");
+  const player2 = Player("CPU", "O", 0, "Player 2");
   let gameboard;
   let activePlayer;
   let opponent;
@@ -270,6 +271,10 @@ const Game = (function () {
 
   function getNames() {
     return [player1.name, player2.name];
+  }
+
+  function getNameWithID(id) {
+    return id === "Player 1" ? player1.name : player2.name;
   }
 
   function getScores() {
@@ -317,13 +322,17 @@ const Game = (function () {
     // reset certain values (gameboard, active player)
   }
 
-  function checkForDraw() {
+  function checkForDraw(board) {
+    const gameboard = board ? board : getGameboard();
+
     if (gameboard.includes("")) return false;
     result = "draw";
     return true;
   }
 
-  function checkForWinner() {
+  function checkForWinner(board) {
+    const gameboard = board ? board : getGameboard();
+
     const winningCombos = [
       [0, 1, 2],
       [3, 4, 5],
@@ -336,7 +345,7 @@ const Game = (function () {
     ];
 
     if (winningCombos.some((cmb) => cmb.every((i) => gameboard[i] === activePlayer.symbol))) {
-      result = activePlayer.name;
+      result = activePlayer.id;
       return true;
     }
   }
@@ -402,7 +411,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID };
 })();
 
 const AI = (function () {
@@ -554,7 +563,13 @@ const AI = (function () {
     // if (result === "cpu") return 10 - depth;
     // else if (result === "user") return depth - 10;
     // else if (result === "draw") return 0;
-    if (Game.checkForWinner()) {
+    if (Game.checkForWinner(gameboard)) {
+      const result = Game.getResult();
+      if (result === "Player 2") return 10 - depth;
+      else if (result === "Player 1") return depth - 10;
+    }
+    if (Game.checkForDraw(gameboard)) {
+      return 0;
     }
 
     // Go through each remaining empty cell and calc the score for each. Then choose the one with the best score for the CURRENT PLAYER
