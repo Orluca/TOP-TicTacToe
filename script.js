@@ -286,7 +286,6 @@ const Game = (function () {
 
   function checkIfCellIsEmpty(id) {
     return gameboard[id] === "" ? true : false;
-    // return gameboard[id] ? false : true;
   }
 
   function getEmptyCells() {
@@ -403,7 +402,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw };
 })();
 
 const AI = (function () {
@@ -523,11 +522,73 @@ const AI = (function () {
     else return randomPosition();
   }
 
+  function unbeatableMove() {
+    let bestScore = -Infinity;
+    let bestMove;
+    const gameboard = Game.getGameboard();
+
+    gameboard.forEach((_cell, i) => {
+      if (gameboard[i] === "") {
+        // Set the current cell to "O"
+        gameboard[i] = "O";
+        // Based on this new gameboard, calc the score for the current cell using MINIMAX
+        const score = minimax(gameboard, false, 0);
+        // Undo the gameboard move
+        gameboard[i] = "";
+        // If the score is bigger than the current bestScore, reassign it and use current move as best move
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = i;
+        }
+      }
+    });
+
+    // gameboard[bestMove] = "O";
+    // Interface.updateGameboard();
+    return bestMove;
+  }
+
+  function minimax(gameboard, isMax, depth) {
+    // Check if game is over, either through a winner or because of a draw
+    // const result = checkForWinner();
+    // if (result === "cpu") return 10 - depth;
+    // else if (result === "user") return depth - 10;
+    // else if (result === "draw") return 0;
+    if (Game.checkForWinner()) {
+    }
+
+    // Go through each remaining empty cell and calc the score for each. Then choose the one with the best score for the CURRENT PLAYER
+    if (isMax) {
+      let bestScore = -Infinity;
+      gameboard.forEach((_cell, i) => {
+        if (gameboard[i] === "") {
+          gameboard[i] = "O";
+          const score = minimax(gameboard, false, depth + 1);
+          gameboard[i] = "";
+          bestScore = Math.max(score, bestScore);
+        }
+      });
+      return bestScore;
+    } else if (!isMax) {
+      let bestScore = Infinity;
+      gameboard.forEach((_cell, i) => {
+        if (gameboard[i] === "") {
+          gameboard[i] = "X";
+          const score = minimax(gameboard, true, depth + 1);
+          gameboard[i] = "";
+          bestScore = Math.min(score, bestScore);
+        }
+      });
+      return bestScore;
+    }
+  }
+
   function makeMove(difficulty) {
     updateWinTracker();
     if (difficulty === "easy") return easyMove();
     if (difficulty === "medium") return mediumMove();
     if (difficulty === "hard") return hardMove();
+    if (difficulty === "unbeatable") return unbeatableMove();
   }
 
   return { makeMove };
