@@ -397,6 +397,7 @@ h2 {
 .name-inputs {
   display: flex;
   flex-direction: column;
+  row-gap: 0.25rem;
 }
 
 .difficulty-selection,
@@ -419,6 +420,25 @@ h2 {
   align-items: center;
   flex-direction: column;
   row-gap: 1rem;
+}
+
+.name-input {
+  display: flex;
+  column-gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.name-input > label {
+  font-size: 1.25rem;
+  color: rgb(213, 213, 213);
+}
+
+.name-input > input {
+  font-size: 1.25rem;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 0.25rem 0.25rem;
 }
 
 /* ############################################################
