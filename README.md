@@ -4,7 +4,8 @@ Tic Tac Toe project from "The Odin Project"
 
 ### Design todos
 
-- [ ] NEW GAME Modal: make buttons look nicer
+- [x] NEW GAME Modal: make buttons look nicer
+- [ ] make name input fields bigger
 
 ### Feature ideas
 
@@ -13,4 +14,4 @@ Tic Tac Toe project from "The Odin Project"
 
 ### Bugs
 
-- [ ] pressing robot symbol wont activate input
+- [x] pressing robot symbol wont activate input

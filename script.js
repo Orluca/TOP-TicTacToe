@@ -28,6 +28,7 @@ const Interface = (function () {
   const $nameDisplayP1 = document.querySelector("#name-display-p1");
   const $nameDisplayP2 = document.querySelector("#name-display-p2");
   const $nameDisplayP2Difficulty = document.querySelector("#name-display-p2-difficulty");
+  const $roundCounter = document.querySelector("#round-value");
 
   let startingPlayer = "player1";
 
@@ -68,14 +69,23 @@ const Interface = (function () {
       Game.switchActivePlayer();
     }
     updateGameboard();
+    Game.increaseRoundCounter();
+    updateRoundCounter();
   }
 
   function handleResetPresses() {
     Game.resetValues();
     Game.resetScores();
+    Game.resetRoundCounter();
     hideResultMessage();
     updateGameboard();
     updateScores();
+    updateRoundCounter();
+    startingPlayer = "player1";
+  }
+
+  function updateRoundCounter() {
+    $roundCounter.textContent = Game.getRounds();
   }
 
   function updateGameboard() {
@@ -274,6 +284,7 @@ const Game = (function () {
   let opponent;
   let difficulty;
   let result;
+  let round;
 
   function getPlayerNumber(playerName) {
     if (playerName === player1.name) return "player1";
@@ -415,6 +426,10 @@ const Game = (function () {
     player2.score = 0;
   }
 
+  function makeP1active() {
+    activePlayer = player1;
+  }
+
   function makeP2active() {
     activePlayer = player2;
   }
@@ -423,18 +438,35 @@ const Game = (function () {
     return opponent;
   }
 
+  function increaseRoundCounter() {
+    round++;
+  }
+
+  function getRounds() {
+    return round;
+  }
+
+  function resetRoundCounter() {
+    round = 1;
+  }
+
   function resetValues() {
     gameboard = new Array(9).fill("");
     activePlayer = player1;
+    // round = 1;
   }
 
   function init() {
-    // activePlayer = player1;
     Interface.init();
     resetValues();
+    round = 1;
   }
 
-  return { init, setCell, getGameboard, setOpponent, getOpponent, setDifficulty, getEmptyCells, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID, makeP2active, getDifficulty };
+  function getActivePlayer() {
+    return activePlayer;
+  }
+
+  return { init, setCell, getGameboard, setOpponent, getOpponent, setDifficulty, getEmptyCells, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID, makeP1active, makeP2active, getDifficulty, increaseRoundCounter, getRounds, resetRoundCounter, getActivePlayer };
 })();
 
 const AI = (function () {
