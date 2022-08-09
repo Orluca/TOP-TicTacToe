@@ -31,6 +31,7 @@ const Interface = (function () {
   const $roundCounter = document.querySelector("#round-value");
 
   let startingPlayer = "player1";
+  let gameWasStarted = false;
 
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
@@ -172,6 +173,7 @@ const Interface = (function () {
     checkNameInputs();
     resetGameboard();
     closeNewGameWindow();
+    gameWasStarted = true;
   }
 
   function checkNameInputs() {
@@ -211,6 +213,7 @@ const Interface = (function () {
 
   function handleOutsideModalClicks(e) {
     if (e.target.closest(".new-game-window")) return;
+    if (!gameWasStarted) return;
     closeNewGameWindow();
   }
 
