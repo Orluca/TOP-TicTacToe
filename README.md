@@ -10,3 +10,7 @@ Tic Tac Toe project from "The Odin Project"
 
 - [ ] dynamically scale name font size so that it fits the container
 - [ ] disable close "new game" window when there hasn't been an active game yet
+
+### Bugs
+
+- [ ] pressing robot symbol wont activate input

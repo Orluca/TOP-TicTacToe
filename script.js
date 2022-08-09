@@ -401,6 +401,10 @@ const Game = (function () {
     player2.score = 0;
   }
 
+  function makeP2active() {
+    activePlayer = player2;
+  }
+
   function resetValues() {
     gameboard = new Array(9).fill("");
     activePlayer = player1;
@@ -411,7 +415,7 @@ const Game = (function () {
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID };
+  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID, makeP2active };
 })();
 
 const AI = (function () {
@@ -551,26 +555,24 @@ const AI = (function () {
         }
       }
     });
-
-    // gameboard[bestMove] = "O";
-    // Interface.updateGameboard();
+    Game.makeP2active(); // A temporary not-so-elegant solution to a bug
     return bestMove;
   }
 
   function minimax(gameboard, isMax, depth) {
     // Check if game is over, either through a winner or because of a draw
-    // const result = checkForWinner();
-    // if (result === "cpu") return 10 - depth;
-    // else if (result === "user") return depth - 10;
-    // else if (result === "draw") return 0;
     if (Game.checkForWinner(gameboard)) {
       const result = Game.getResult();
       if (result === "Player 2") return 10 - depth;
-      else if (result === "Player 1") return depth - 10;
+      else if (result === "Player 1") {
+        return depth - 10;
+      }
     }
     if (Game.checkForDraw(gameboard)) {
       return 0;
     }
+
+    Game.switchActivePlayer();
 
     // Go through each remaining empty cell and calc the score for each. Then choose the one with the best score for the CURRENT PLAYER
     if (isMax) {
