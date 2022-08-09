@@ -29,6 +29,8 @@ const Interface = (function () {
   const $nameDisplayP2 = document.querySelector("#name-display-p2");
   const $nameDisplayP2Difficulty = document.querySelector("#name-display-p2-difficulty");
 
+  let startingPlayer = "player1";
+
   function initListeners() {
     $newGameModal.addEventListener("click", handleOutsideModalClicks);
     $btnNewGame.addEventListener("click", handleNewGamePresses);
@@ -57,6 +59,14 @@ const Interface = (function () {
   function handleNextRoundPresses() {
     hideResultMessage();
     Game.resetValues();
+    if (startingPlayer === "player2" && Game.getOpponent() === "computer") {
+      Game.switchActivePlayer();
+      Game.setCell(AI.makeMove(Game.getDifficulty()));
+      Game.switchActivePlayer();
+    }
+    if (startingPlayer === "player2" && Game.getOpponent() === "human") {
+      Game.switchActivePlayer();
+    }
     updateGameboard();
   }
 
@@ -238,7 +248,12 @@ const Interface = (function () {
     $scoreP2.textContent = scores[1];
   }
 
+  function switchStartingPlayer() {
+    startingPlayer = startingPlayer === "player1" ? "player2" : "player1";
+  }
+
   function endGame() {
+    switchStartingPlayer();
     showResultMessage();
     updateScores();
   }
@@ -316,18 +331,16 @@ const Game = (function () {
     return result;
   }
 
-  function startGame() {
-    console.log("starting game...");
-    // reset ui elements
-    // reset certain values (gameboard, active player)
-  }
-
   function checkForDraw(board) {
     const gameboard = board ? board : getGameboard();
 
     if (gameboard.includes("")) return false;
     result = "draw";
     return true;
+  }
+
+  function getDifficulty() {
+    return difficulty;
   }
 
   function checkForWinner(board) {
@@ -405,17 +418,22 @@ const Game = (function () {
     activePlayer = player2;
   }
 
+  function getOpponent() {
+    return opponent;
+  }
+
   function resetValues() {
     gameboard = new Array(9).fill("");
     activePlayer = player1;
   }
 
   function init() {
+    // activePlayer = player1;
     Interface.init();
     resetValues();
   }
 
-  return { init, setCell, getGameboard, setOpponent, setDifficulty, getEmptyCells, startGame, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID, makeP2active };
+  return { init, setCell, getGameboard, setOpponent, getOpponent, setDifficulty, getEmptyCells, switchActivePlayer, playRound, getResult, resetValues, checkIfCellIsEmpty, getScores, resetScores, updateNames, getNames, getPlayerNumber, checkForWinner, checkForDraw, getNameWithID, makeP2active, getDifficulty };
 })();
 
 const AI = (function () {
