@@ -170,7 +170,11 @@ const Interface = (function () {
   function handleStartGamePresses() {
     Game.resetScores();
     Game.resetValues();
-    checkNameInputs();
+    if (Game.getOpponent() === "human") checkNameInputs();
+    if (Game.getOpponent() === "computer") {
+      Game.updateNames("Human", "AI");
+      setNameDisplays(Game.getDifficulty());
+    }
     resetGameboard();
     closeNewGameWindow();
     gameWasStarted = true;
@@ -189,7 +193,7 @@ const Interface = (function () {
     const [name1, name2] = Game.getNames();
     $nameDisplayP1.textContent = name1;
     $nameDisplayP2.textContent = name2;
-    $nameDisplayP2Difficulty.textContent = difficulty ? difficulty : "";
+    $nameDisplayP2Difficulty.textContent = difficulty ? difficulty.slice(0, 1).toUpperCase() + difficulty.slice(1) : "";
   }
 
   function resetNameInputs() {

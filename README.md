@@ -11,6 +11,8 @@ Tic Tac Toe project from "The Odin Project"
 
 - [ ] dynamically scale name font size so that it fits the container
 - [x] disable close "new game" window when there hasn't been an active game yet
+- [ ] short delay when ai makes move
+- [ ] visually highlight active players scoreboard (make a bit bigger, change color)
 
 ### Bugs
 

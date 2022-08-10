@@ -477,3 +477,9 @@ h2 {
 .player2-color {
   color: var(--color-symbol-2);
 }
+
+.active-player {
+  /* transform: scale(1.25); */
+  /* filter: brightness(1.25); */
+  /* background-color: red !important; */
+}
