@@ -1,6 +1,6 @@
 # TOP-TicTacToe
 
-Tic Tac Toe project from "The Odin Project"
+Tic Tac Toe project from "The Odin Project". https://orluca.github.io/TOP-TicTacToe/
 
 ### TODOs
 
