@@ -4,7 +4,7 @@ Tic Tac Toe project from "The Odin Project". https://orluca.github.io/TOP-TicTac
 
 ### TODOs
 
-- [x] REFACTOR!
+- [ ] REFACTOR!
 - [x] pressing robot symbol wont activate input
 
 ### Feature ideas
